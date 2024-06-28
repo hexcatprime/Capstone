@@ -1,30 +1,17 @@
-use yew::prelude::*;
+use reqwest;
 
-#[function_component]
-fn App() -> Html
-{
-    let counter = use_state(|| 0);
-    let onclick =
-    {
-        let counter = counter.clone();
-        move |_|
-        {
-            let value = *counter + 1;
-            counter.set(value);
+#[tokio::main(flavor = "current_thread")]
+async fn query() {
+    //let client = reqwest::Client::new();
 
-        }
-    };
-
-    html! 
-    {
-        <div>
-            <button {onclick}>{"+1"}</button>
-            <p>{*counter}</p>
-        </div>
-    }
+    let response = reqwest::get("https://www.omdbapi.com/?t=Dune&y=2021&apikey=XXXXXXXX")
+        .await
+        .unwrap()
+        .text()
+        .await;
+    println!("{:?}", response);
 }
 
-fn main()
-{
-    yew::Renderer::<App>::new().render();
+fn main() {
+    query();
 }
