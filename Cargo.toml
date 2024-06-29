@@ -6,7 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+chrono = "0.4.38"
 reqwest = "0.12.5"
+serde = "1.0.203"
 tokio = { version = "1.38.0", features = ["macros"] }
 tokio-macros = "2.3.0"
+url = "2.5.2"
 yew = {version = "0.21.0", features = ["csr"]}
