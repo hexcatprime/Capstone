@@ -2,20 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CSV Loader</title>
-    <link rel="stylesheet" href="webpage-resources\style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Filter</title>
+    <link rel="stylesheet" href="webpage-resources/style.css">
 </head>
 <body>
-    <button id="loadCsv">Load CSV</button>
-    <pre id="output"></pre>
-
-    <script src="loadCsv.js"></script>
-    <table id="csv-table">
-        <thead id="table-head"></thead>
-        <tbody id="table-body"></tbody>
-    </table>
-    <script type="module" src="webpage-resources/loadCsv.js">
-
-    </script>    
+    <h1>CSV Filter</h1>
+    <div class="container">
+        <div class="header">
+            <h2>All DVDs</h2>
+        </div>
+        <div class="controls">
+            
+            <div class="filter-bar">
+                <input type="text" id="query" placeholder="Enter search term">
+                <button id="filter-btn">Filter</button>
+            </div>
+            <div class="sort-buttons">
+                <button id="sort-btn1">Sort Column 1 <span id="arrow1">&#9650;</span></button>
+                <button id="sort-btn2">Sort Column 2 <span id="arrow2">&#9650;</span></button>
+                <button id="sort-btn3">Sort Column 3 <span id="arrow3">&#9650;</span></button>
+                <button id="sort-btn4">Sort Column 4 <span id="arrow4">&#9650;</span></button>
+            </div>
+        </div>
+        <h2>Filtered Results:</h2>
+        <table id="result"></table>
+    </div>
+    <script type="module" src="webpage-resources/loadCsv.js"></script>
 </body>
 </html>
