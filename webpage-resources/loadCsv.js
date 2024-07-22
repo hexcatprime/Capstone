@@ -20,7 +20,7 @@ async function run() {
     let headers = [];
     
     let sortColumn = null;
-    let sortOrder = 'asc'; // Default sort order
+    let sortOrder = 'asc';
 
     function loadCsv() {
         fetch('../csv/convertcsv.csv')
@@ -59,7 +59,7 @@ async function run() {
             sortOrder = (sortOrder === 'asc') ? 'desc' : 'asc';
         } else {
             sortColumn = columnIndex;
-            sortOrder = 'asc'; // Default to ascending when switching columns
+            sortOrder = 'asc';
         }
 
         const sortedData = [...filteredData].sort((a, b) => {

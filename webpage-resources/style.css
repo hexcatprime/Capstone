@@ -1,17 +1,15 @@
-/* Centering the container and making it responsive */
+
 .container {
     text-align: center;
     margin: 0 auto;
     max-width: 600px;
 }
 
-/* Styling the header with "All DVDs" */
 .header h2 {
     font-size: 80px;
     margin-bottom: 20px;
 }
 
-/* Flexbox layout for controls */
 .controls {
     display: flex;
     justify-content: center;
@@ -19,19 +17,16 @@
     gap: 20px;
 }
 
-/* Styling the filter bar and buttons */
 .filter-bar {
     display: flex;
     gap: 10px;
 }
 
-/* Ensuring the buttons are evenly spaced */
 .sort-buttons {
     display: flex;
     gap: 10px;
 }
 
-/* Making sure buttons and input have consistent spacing */
 .controls input,
 .controls button {
     margin: 5px;
