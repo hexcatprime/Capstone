@@ -1,8 +1,20 @@
+/* Basic Reset and Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #121212;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+h1 {
+    margin: 25px;
+}
 
 .container {
     text-align: center;
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 1000px;
 }
 
 .header h2 {
@@ -17,52 +29,16 @@
     gap: 20px;
 }
 
-.filter-bar {
-    display: flex;
-    gap: 10px;
-}
-
+.filter-bar,
 .sort-buttons {
     display: flex;
     gap: 10px;
 }
 
-.controls input,
-.controls button {
-    margin: 5px;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #424242;
-    color: #FFFFFF;
-    margin: 0;
-}
-h1 {
-    margin: 25px;
-}
 input, button {
     margin-bottom: 10px;
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    border: 1px solid #ddd;
-}
-th, td {
-    padding: 8px;
-    text-align: left;
-}
-th {
-    background-color: #f4f4f4;
-    color: #000;
-    border-bottom: 1px solid #ddd;
-}
-td {
-    border-bottom: 1px solid #ddd;
-}
+
 button {
     background-color: #6c757d;
     color: #fff;
@@ -70,7 +46,51 @@ button {
     padding: 10px;
     cursor: pointer;
 }
+
 button:hover {
     background-color: #5a6268;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+}
+
+td {
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.cell {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #424242;
+}
+
+.row:nth-child(odd) {
+    background-color: #181818;
+}
+
+.row:nth-child(even) {
+    background-color: #424242;
+}
+
+.row .cell:nth-child(2) {
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.img-cell{
+    width: 150px;
+    height: 200px;
+    vertical-align: middle;
+    
+}
+
+.large-font{
+    font-size: 25px;
+    width: 400px;
 }
 

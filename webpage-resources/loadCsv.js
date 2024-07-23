@@ -4,112 +4,76 @@ async function run() {
     await init();
 
     const queryInput = document.getElementById('query');
-    const filterButton = document.getElementById('filter-btn');
-    const sortButton1 = document.getElementById('sort-btn1');
-    const sortButton2 = document.getElementById('sort-btn2');
-    const sortButton3 = document.getElementById('sort-btn3');
-    const sortButton4 = document.getElementById('sort-btn4');
-    const arrow1 = document.getElementById('arrow1');
-    const arrow2 = document.getElementById('arrow2');
-    const arrow3 = document.getElementById('arrow3');
-    const arrow4 = document.getElementById('arrow4');
     const resultTable = document.getElementById('result');
+    const sortButtons = Array.from(document.querySelectorAll('[id^="sort-btn"]'));
+    const arrows = Array.from(document.querySelectorAll('[id^="arrow"]'));
 
-    let csvRows = [];
-    let filteredData = [];
-    let headers = [];
-    
-    let sortColumn = null;
-    let sortOrder = 'asc';
-
-    function loadCsv() {
-        fetch('../csv/convertcsv.csv')
-            .then(response => response.text())
-            .then(csvData => {
-                const [headerRow, ...rows] = csvData.split('\n').filter(row => row.trim() !== '');
-                headers = headerRow.split(',');
-                csvRows = rows.map(row => row.split(','));
-
-                filteredData = csvRows;
-
-                displayTable(filteredData);
-            })
-            .catch(error => {
-                resultTable.innerHTML = "<tr><td colspan='100%'>Error loading CSV data.</td></tr>";
-                console.error('Error:', error);
-            });
-    }
+    let csvRows = [], filteredData = [], headers = [];
+    let sortColumn = null, sortOrder = 'asc';
 
     loadCsv();
 
-    filterButton.addEventListener('click', () => {
-        const query = queryInput.value.trim();
+    document.getElementById('filter-btn').addEventListener('click', handleFilter);
 
-        if (query === "") {
-            filteredData = csvRows;
-        } else {
-            filteredData = csvRows.filter(row => row.join(',').toLowerCase().includes(query.toLowerCase()));
-        }
-
-        displayTable(filteredData);
+    sortButtons.forEach((button, index) => {
+        button.addEventListener('click', () => handleSort(index));
     });
 
-    function sortData(columnIndex, arrowElement) {
-        if (sortColumn === columnIndex) {
-            sortOrder = (sortOrder === 'asc') ? 'desc' : 'asc';
-        } else {
-            sortColumn = columnIndex;
-            sortOrder = 'asc';
+    async function loadCsv() {
+        try {
+            const response = await fetch('../csv/MOCK_DATA.csv');
+            const csvData = await response.text();
+            processCsvData(csvData);
+        } catch (error) {
+            displayError("Error loading CSV data.");
+            console.error('Error:', error);
         }
+    }
 
-        const sortedData = [...filteredData].sort((a, b) => {
-            const valueA = a[columnIndex] || '';
-            const valueB = b[columnIndex] || '';
+    function processCsvData(csvData) {
+        const [headerRow, ...rows] = csvData.split('\n').filter(row => row.trim());
+        headers = headerRow.split(',');
+        csvRows = rows.map(row => row.split(','));
+        filteredData = csvRows;
+        displayTable(filteredData);
+    }
 
-            if (sortOrder === 'asc') {
-                return valueA.localeCompare(valueB);
-            } else {
-                return valueB.localeCompare(valueA);
-            }
-        });
+    function handleFilter() {
+        const query = queryInput.value.trim().toLowerCase();
+        filteredData = query ? csvRows.filter(row => row.join(',').toLowerCase().includes(query)) : csvRows;
+        displayTable(filteredData);
+    }
 
-        displayTable(sortedData);
+    function handleSort(columnIndex) {
+        columnIndex++;
+        sortOrder = (sortColumn === columnIndex && sortOrder === 'asc') ? 'desc' : 'asc';
+        sortColumn = columnIndex;
+        filteredData.sort((a, b) => sortOrder === 'asc' ? a[columnIndex].localeCompare(b[columnIndex]) : b[columnIndex].localeCompare(a[columnIndex]));
         updateArrows(columnIndex);
+        displayTable(filteredData);
     }
 
     function updateArrows(columnIndex) {
-        // Reset arrows
-        arrow1.innerHTML = columnIndex === 0 ? (sortOrder === 'asc' ? '&#9650;' : '&#9660;') : '&#9650;';
-        arrow2.innerHTML = columnIndex === 1 ? (sortOrder === 'asc' ? '&#9650;' : '&#9660;') : '&#9650;';
-        arrow3.innerHTML = columnIndex === 2 ? (sortOrder === 'asc' ? '&#9650;' : '&#9660;') : '&#9650;';
-        arrow4.innerHTML = columnIndex === 3 ? (sortOrder === 'asc' ? '&#9650;' : '&#9660;') : '&#9650;';
+        columnIndex--;
+        arrows.forEach((arrow, index) => {
+            arrow.innerHTML = (index === columnIndex) ? (sortOrder === 'asc' ? '&#9650;' : '&#9660;') : '&#9650;';
+        });
     }
 
-    sortButton1.addEventListener('click', () => sortData(0, arrow1));
-    sortButton2.addEventListener('click', () => sortData(1, arrow2));
-    sortButton3.addEventListener('click', () => sortData(2, arrow3));
-    sortButton4.addEventListener('click', () => sortData(3, arrow4));
-
     function displayTable(data) {
-        const nonEmptyData = data.filter(row => row.some(cell => cell.trim() !== ''));
-
-        if (nonEmptyData.length === 0) {
-            resultTable.innerHTML = "<tr><td colspan='100%'>No results found.</td></tr>";
-            return;
-        }
-
-        const bodyHtml = nonEmptyData.map(row => `<tr>${row.map(cell => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`).join('');
-
-        resultTable.innerHTML = `<tbody>${bodyHtml}</tbody>`;
+        resultTable.innerHTML = data.length ? data.map(row => `
+            <tr>${row.slice(0, 6).map((cell, index) => index === 0 ? `<td><img src="${escapeHtml(cell)}" alt="Image" class="img-cell"></td>` : `<td class="${index === 1 ? 'large-font' : ''}">${escapeHtml(cell)}</td>`).join('')}</tr>
+        `).join('') : "<tr><td colspan='100%'>No results found.</td></tr>";
     }
 
     function escapeHtml(text) {
         const element = document.createElement('div');
-        if (text) {
-            element.innerText = text;
-            return element.innerHTML;
-        }
-        return '';
+        element.innerText = text;
+        return element.innerHTML;
+    }
+
+    function displayError(message) {
+        resultTable.innerHTML = `<tr><td colspan='100%'>${message}</td></tr>`;
     }
 }
 
