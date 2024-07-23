@@ -17,3 +17,25 @@ pub fn filter_csv(csv_data: &str, query: &str) -> String {
     
     result  
 }
+
+#[wasm_bindgen]
+pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String {
+    let mut records: Vec<Vec<String>> = csv_data
+        .lines()
+        .map(|line| line.split(',').map(String::from).collect())
+        .collect();
+
+    records.sort_by(|a, b| {
+        let cmp = a[column_index].cmp(&b[column_index]);
+        if sort_order == "desc" {
+            cmp.reverse()
+        } else {
+            cmp
+        }
+    });
+
+    records.iter()
+        .map(|row| row.join(","))
+        .collect::<Vec<_>>()
+        .join("\n")
+}

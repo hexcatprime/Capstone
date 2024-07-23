@@ -1,4 +1,4 @@
-import init from '../pkg/freakstone.js';
+import init, { filter_csv, sort_csv } from '../pkg/freakstone.js';
 
 async function run() {
     await init();
@@ -31,16 +31,38 @@ async function run() {
     }
 
     function processCsvData(csvData) {
-        const [headerRow, ...rows] = csvData.split('\n').filter(row => row.trim());
+        const [headerRow, ...rows] = csvData
+        .split('\n')
+        .filter(row => row.trim());
+        
         headers = headerRow.split(',');
         csvRows = rows.map(row => row.split(','));
         filteredData = csvRows;
         displayTable(filteredData);
     }
 
-    function handleFilter() {
-        const query = queryInput.value.trim().toLowerCase();
-        filteredData = query ? csvRows.filter(row => row.join(',').toLowerCase().includes(query)) : csvRows;
+    async function handleFilter() {
+        const query = queryInput.value.trim();
+        if (!query) {
+            filteredData = csvRows;
+            displayTable(filteredData);
+            return;
+        }
+    
+        // Convert CSV rows to a single CSV string
+        const csvData = csvRows
+        .map(row => row.join(','))
+        .join('\n');
+        
+        // Call the WASM function to filter the data
+        const filteredCsvData = filter_csv(csvData, query);
+        
+        // Convert the filtered CSV data back to an array format
+        filteredData = filteredCsvData
+        .split('\n')
+        .filter(row => row.trim())
+        .map(row => row.split(','));
+        
         displayTable(filteredData);
     }
 
@@ -48,7 +70,13 @@ async function run() {
         columnIndex++;
         sortOrder = (sortColumn === columnIndex && sortOrder === 'asc') ? 'desc' : 'asc';
         sortColumn = columnIndex;
-        filteredData.sort((a, b) => sortOrder === 'asc' ? a[columnIndex].localeCompare(b[columnIndex]) : b[columnIndex].localeCompare(a[columnIndex]));
+
+        const csvData = filteredData.map(row => row.join(',')).join('\n');
+        const sortedCsvData = sort_csv(csvData, columnIndex, sortOrder);
+
+        filteredData = sortedCsvData.split('\n')
+        .map(row => row.split(','));
+        
         updateArrows(columnIndex);
         displayTable(filteredData);
     }
@@ -62,7 +90,7 @@ async function run() {
 
     function displayTable(data) {
         resultTable.innerHTML = data.length ? data.map(row => `
-            <tr>${row.slice(0, 6).map((cell, index) => index === 0 ? `<td><img src="${escapeHtml(cell)}" alt="Image" class="img-cell"></td>` : `<td class="${index === 1 ? 'large-font' : ''}">${escapeHtml(cell)}</td>`).join('')}</tr>
+            <tr>${row.slice(0,5).map((cell, index) => index === 0 ? `<td><img src="${escapeHtml(cell)}" alt="Image" class="img-cell"></td>` : `<td class="${index === 1 ? 'large-font' : ''}">${escapeHtml(cell)}</td>`).join('')}</tr>
         `).join('') : "<tr><td colspan='100%'>No results found.</td></tr>";
     }
 

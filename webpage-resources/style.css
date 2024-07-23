@@ -1,95 +1,95 @@
-body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #121212;
-    color: #FFFFFF;
-    margin: 0;
-}
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #121212;
+        color: #FFFFFF;
+        margin: 0;
+    }
 
-h1 {
-    margin: 25px;
-}
+    h1 {
+        margin: 25px;
+    }
 
-.container {
-    text-align: center;
-    margin: 0 auto;
-    max-width: 1000px;
-}
+    .container {
+        text-align: center;
+        margin: 0 auto;
+        max-width: 1000px;
+    }
 
-.header h2 {
-    font-size: 80px;
-    margin-bottom: 20px;
-}
+    .header h2 {
+        font-size: 80px;
+        margin-bottom: 20px;
+    }
 
-.controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
+    .controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
 
-.filter-bar,
-.sort-buttons {
-    display: flex;
-    gap: 10px;
-}
+    .filter-bar,
+    .sort-buttons {
+        display: flex;
+        gap: 10px;
+    }
 
-input, button {
-    margin-bottom: 10px;
-}
+    input, button {
+        margin-bottom: 10px;
+    }
 
-button {
-    background-color: #6c757d;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
+    button {
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
 
-button:hover {
-    background-color: #5a6268;
-}
+    button:hover {
+        background-color: #5a6268;
+    }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    border: 1px solid #ddd;
-}
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+    }
 
-td {
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
+    td {
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
 
-.cell {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #424242;
-}
+    .cell {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #424242;
+    }
 
-.row:nth-child(odd) {
-    background-color: #181818;
-}
+    .row:nth-child(odd) {
+        background-color: #181818;
+    }
 
-.row:nth-child(even) {
-    background-color: #424242;
-}
+    .row:nth-child(even) {
+        background-color: #424242;
+    }
 
-.row .cell:nth-child(2) {
-    font-weight: bold;
-    font-size: 50px;
-}
+    .row .cell:nth-child(2) {
+        font-weight: bold;
+        font-size: 50px;
+    }
 
-.img-cell{
-    width: 150px;
-    height: 200px;
-    vertical-align: middle;
-    
-}
+    .img-cell{
+        width: 150px;
+        height: 200px;
+        vertical-align: middle;
+        
+    }
 
-.large-font{
-    font-size: 25px;
-    width: 400px;
-}
+    .large-font{
+        font-size: 25px;
+        width: 400px;
+    }
 
