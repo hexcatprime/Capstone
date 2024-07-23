@@ -1,95 +1,171 @@
-    body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        background-color: #121212;
-        color: #FFFFFF;
-        margin: 0;
-    }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents the page from scrolling */
+}
 
-    h1 {
-        margin: 25px;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #FFFFFF;
+    display: flex;
+    height: 100vh;
+}
 
-    .container {
-        text-align: center;
-        margin: 0 auto;
-        max-width: 1000px;
-    }
+.wrapper {
+    display: flex;
+    width: 100%;
+}
 
-    .header h2 {
-        font-size: 80px;
-        margin-bottom: 20px;
-    }
+.sidebar {
+    width: 250px;
+    background-color: #1f1f1f;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 
-    .controls {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-    }
+.sidebar h1 {
+    font-size: 24px;
+    margin: 0 0 20px;
+}
 
-    .filter-bar,
-    .sort-buttons {
-        display: flex;
-        gap: 10px;
-    }
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-    input, button {
-        margin-bottom: 10px;
-    }
+.sidebar-buttons button {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
 
-    button {
-        background-color: #6c757d;
-        color: #fff;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-    }
+.sidebar-buttons button:hover {
+    background-color: #5a6268;
+}
 
-    button:hover {
-        background-color: #5a6268;
-    }
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        border: 1px solid #ddd;
-    }
+.header h2 {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
 
-    td {
-        border-bottom: 1px solid #ddd;
-        text-align: left;
-    }
+.controls {
+    margin-bottom: 20px;
+}
 
-    .cell {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #424242;
-    }
+.filter-bar,
+.sort-buttons {
+    display: flex;
+    gap: 10px;
+}
 
-    .row:nth-child(odd) {
-        background-color: #181818;
-    }
+input, button {
+    margin-bottom: 10px;
+}
 
-    .row:nth-child(even) {
-        background-color: #424242;
-    }
+button {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
 
-    .row .cell:nth-child(2) {
-        font-weight: bold;
-        font-size: 50px;
-    }
+button:hover {
+    background-color: #5a6268;
+}
 
-    .img-cell{
-        width: 150px;
-        height: 200px;
-        vertical-align: middle;
-        
-    }
+.table-container {
+    overflow-y: auto;
+    max-height: 600px; /* Adjust this value as needed */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 
-    .large-font{
-        font-size: 25px;
-        width: 400px;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
+td {
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.cell {
+    background-color: #424242;
+}
+
+.row:nth-child(odd) {
+    background-color: #181818;
+}
+
+.row:nth-child(even) {
+    background-color: #424242;
+}
+
+.row .cell:nth-child(2) {
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.img-cell {
+    width: 100px;
+    height: 150px;
+    vertical-align: middle;
+}
+
+.large-font {
+    font-size: 25px;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #121212;
+    margin: 5% auto; /* Centered with some margin from top */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Responsive width */
+    max-width: 500px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+}

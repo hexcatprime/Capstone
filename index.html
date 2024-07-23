@@ -7,27 +7,79 @@
     <link rel="stylesheet" href="webpage-resources/style.css">
 </head>
 <body>
-    <h1>DVD/Blu-Ray Cataloger</h1>
-    <div class="container">
-        <div class="header">
-            <h2>All DVDs</h2>
-        </div>
-        <div class="controls">
-            
-            <div class="filter-bar">
-                <input type="text" id="query" placeholder="Enter search term">
-                <button id="filter-btn">Filter</button>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <h1>DVD/Blu-Ray Cataloger</h1>
+            <div class="sidebar-buttons">
+                <button id="new-movie">New Movie</button>
+                <button id="filter">Filter</button>
+                <button id="settings">Manage Data</button>
             </div>
-            <div class="sort-buttons">
-                <button id="sort-btn1">Title<span id="arrow1">&#9650;</span></button>
-                <button id="sort-btn2">Year<span id="arrow2">&#9650;</span></button>
-                <button id="sort-btn3">Runtime<span id="arrow3">&#9650;</span></button>
-                <button id="sort-btn4">Score<span id="arrow4">&#9650;</span></button>
+        </aside>
+        <main class="main-content">
+            <div class="header">
+                <h2>All DVDs</h2>
             </div>
-        </div>
-        <h2>Filtered Results:</h2>
-        <table id="result"></table>
+            <div class="controls">
+                <div class="sort-buttons">
+                    <button id="sort-btn1">Title<span id="arrow1">&#9650;</span></button>
+                    <button id="sort-btn2">Year<span id="arrow2">&#9650;</span></button>
+                    <button id="sort-btn3">Runtime<span id="arrow3">&#9650;</span></button>
+                    <button id="sort-btn4">Score<span id="arrow4">&#9650;</span></button>
+                </div>
+            </div>
+            <h2>Filtered Results:</h2>
+            <div class="table-container">
+                <table id="result"></table>
+            </div>
+        </main>
     </div>
+    
+    <div id="filterModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Filter Options</h2>
+            <div>
+                <label for="title-filter">Title:</label>
+                <input type="text" id="title-filter" placeholder="Enter title">
+            </div>
+            <div>
+                <label for="year-filter">Year:</label>
+                <input type="text" id="year-filter" placeholder="Enter year">
+            </div>
+            <div>
+                <label for="genre-filter">Genre:</label>
+                <input type="text" id="genre-filter" placeholder="Enter genre">
+            </div>
+            <div>
+                <label for="rating-filter">Rating:</label>
+                <input type="text" id="rating-filter" placeholder="Enter rating">
+            </div>
+            <div>
+                <label for="director-filter">Director:</label>
+                <input type="text" id="director-filter" placeholder="Enter director">
+            </div>
+            <div>
+                <label for="writer-filter">Writer:</label>
+                <input type="text" id="writer-filter" placeholder="Enter writer">
+            </div>
+            <div>
+                <label for="actor-filter">Actor:</label>
+                <input type="text" id="actor-filter" placeholder="Enter actor">
+            </div>
+            <div>
+                <label for="language-filter">Language:</label>
+                <input type="text" id="language-filter" placeholder="Enter language">
+            </div><div>
+                <label for="country-filter">Country:</label>
+                <input type="text" id="country-filter" placeholder="Enter country">
+            </div>
+            <button id="filter-btn">Apply Filter</button>
+        </div>
+    </div>
+    
+
     <script type="module" src="webpage-resources/loadCsv.js"></script>
+    <script type="module" src="webpage-resources/modal.js"></script>
 </body>
 </html>

@@ -42,29 +42,49 @@ async function run() {
     }
 
     async function handleFilter() {
-        const query = queryInput.value.trim();
-        if (!query) {
+        const titleQuery = document.getElementById('title-filter').value.trim();
+        const yearQuery = document.getElementById('year-filter').value.trim();
+        const genreQuery = document.getElementById('genre-filter').value.trim();
+        const ratingQuery = document.getElementById('rating-filter').value.trim();
+        const directorQuery = document.getElementById('director-filter').value.trim();
+        const writerQuery = document.getElementById('writer-filter').value.trim();
+        const actorQuery = document.getElementById('actor-filter').value.trim();
+        const languageQuery = document.getElementById('language-filter').value.trim();
+        const countryQuery = document.getElementById('country-filter').value.trim();
+        
+    
+        if (!titleQuery && !yearQuery && !genreQuery && !ratingQuery && !directorQuery && !writerQuery && !actorQuery && !languageQuery && !countryQuery) {
             filteredData = csvRows;
             displayTable(filteredData);
             return;
         }
     
-        // Convert CSV rows to a single CSV string
         const csvData = csvRows
-        .map(row => row.join(','))
-        .join('\n');
-        
-        // Call the WASM function to filter the data
-        const filteredCsvData = filter_csv(csvData, query);
-        
-        // Convert the filtered CSV data back to an array format
+            .map(row => row.join(','))
+            .join('\n');
+    
+        const filteredCsvData = filter_csv(csvData, titleQuery, yearQuery, genreQuery, ratingQuery, directorQuery, writerQuery, actorQuery, languageQuery, countryQuery);
+    
         filteredData = filteredCsvData
-        .split('\n')
-        .filter(row => row.trim())
-        .map(row => row.split(','));
-        
+            .split('\n')
+            .filter(row => row.trim())
+            .map(row => row.split(','))
+            .filter(row => 
+                (!titleQuery || row[1].toLowerCase().includes(titleQuery.toLowerCase())) &&
+                (!yearQuery || row[2].toLowerCase().includes(yearQuery)) &&
+                (!genreQuery || row[7].toLowerCase().includes(genreQuery)) &&
+                (!ratingQuery || row[4].toLowerCase().includes(ratingQuery)) &&
+                (!directorQuery || row[9].toLowerCase().includes(directorQuery)) &&
+                (!writerQuery || row[10].toLowerCase().includes(writerQuery)) &&
+                (!actorQuery || row[11].toLowerCase().includes(actorQuery)) &&
+                (!languageQuery || row[13].toLowerCase().includes(languageQuery)) &&
+                (!countryQuery || row[14].toLowerCase().includes(countryQuery))
+
+            );
+    
         displayTable(filteredData);
     }
+    
 
     function handleSort(columnIndex) {
         columnIndex++;
