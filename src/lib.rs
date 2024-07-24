@@ -43,15 +43,22 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
 
     // Sort the data rows
     records.sort_by(|a, b| {
-        let cmp = a.get(column_index)
-            .unwrap_or(&String::new())
-            .cmp(&b.get(column_index).unwrap_or(&String::new()));
+        let a_val = a.get(column_index).unwrap_or(&String::new()).clone();
+        let b_val = b.get(column_index).unwrap_or(&String::new()).clone();
+        println!("Comparing: {} with {}", a_val, b_val); // Debug output
+        
+        let cmp = match (a_val.parse::<f64>(), b_val.parse::<f64>()) {
+            (Ok(a_num), Ok(b_num)) => a_num.partial_cmp(&b_num).unwrap_or(std::cmp::Ordering::Equal),
+            _ => a_val.cmp(&b_val),
+        };
+        
         if sort_order == "desc" {
             cmp.reverse()
         } else {
             cmp
         }
     });
+    
 
     // Combine header with sorted data
     let sorted_csv = records

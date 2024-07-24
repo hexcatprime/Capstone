@@ -232,6 +232,11 @@ th:nth-child(3), td:nth-child(3) {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    width: 100%;
+}
+.modal-buttons button {
+    margin: 5px;
+    width: 100%;
 }
 
 .data-table-container {

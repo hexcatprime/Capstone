@@ -31,10 +31,10 @@
                 <div class="sort-controls">
                     <label for="sort-by">Sort By:</label>
                     <select id="sort-by">
-                        <option value="0">Title</option>
-                        <option value="1">Year</option>
-                        <option value="2">Runtime</option>
-                        <option value="3">Score</option>
+                        <option value="1">Title</option>
+                        <option value="2">Year</option>
+                        <option value="4">Runtime</option>
+                        <option value="5">Score</option>
                     </select>
                     <label for="sort-order">Sort Order:</label>
                     <select id="sort-order">
@@ -195,8 +195,10 @@
     <div id="manageDataModal" class="modal managedata">
         <div class="data-modal-content">
             <h2>Manage Data</h2>
-            <button id="saveChangesBtn">Save Changes</button>
-            <button id="closeManageDataModal">Close</button>
+            <div class="modal-buttons">
+                <button id="saveChangesBtn">Save Changes</button>
+                <button id="closeManageDataModal">Close</button>
+            </div>
             <div class="data-table-container">
                 <table id="csvTable">
                     <!-- Table content will be dynamically added here -->

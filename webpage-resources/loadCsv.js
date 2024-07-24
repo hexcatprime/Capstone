@@ -168,7 +168,7 @@ export async function run() {
     
 
     function displayTable(data) {
-        const numColumnsToShow = 15;
+        const numColumnsToShow = 8;
         
         const headerHtml = headers
             .slice(0, numColumnsToShow)
