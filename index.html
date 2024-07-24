@@ -9,26 +9,34 @@
 <body>
     <div class="wrapper">
         <aside class="sidebar">
-            <h1>DVD/Blu-Ray Cataloger</h1>
+            <h1>Movie Cataloger</h1>
             <div class="sidebar-buttons">
                 <button id="new-movie">New Movie</button>
                 <button id="filter">Filter</button>
+                <button id="export">Export</button>
                 <button id="settings">Manage Data</button>
             </div>
         </aside>
         <main class="main-content">
             <div class="header">
-                <h2>All DVDs</h2>
+                <h2>All Movies</h2>
             </div>
             <div class="controls">
-                <div class="sort-buttons">
-                    <button id="sort-btn1">Title<span id="arrow1">&#9650;</span></button>
-                    <button id="sort-btn2">Year<span id="arrow2">&#9650;</span></button>
-                    <button id="sort-btn3">Runtime<span id="arrow3">&#9650;</span></button>
-                    <button id="sort-btn4">Score<span id="arrow4">&#9650;</span></button>
+                <div class="sort-controls">
+                    <label for="sort-by">Sort By:</label>
+                    <select id="sort-by">
+                        <option value="0">Title</option>
+                        <option value="1">Year</option>
+                        <option value="2">Runtime</option>
+                        <option value="3">Score</option>
+                    </select>
+                    <label for="sort-order">Sort Order:</label>
+                    <select id="sort-order">
+                        <option value="asc">&#9650; Ascending</option>
+                        <option value="desc">&#9660; Descending</option>
+                    </select>
                 </div>
             </div>
-            <h2>Filtered Results:</h2>
             <div class="table-container">
                 <table id="result"></table>
             </div>
@@ -70,7 +78,8 @@
             <div>
                 <label for="language-filter">Language:</label>
                 <input type="text" id="language-filter" placeholder="Enter language">
-            </div><div>
+            </div>
+            <div>
                 <label for="country-filter">Country:</label>
                 <input type="text" id="country-filter" placeholder="Enter country">
             </div>
@@ -81,5 +90,6 @@
 
     <script type="module" src="webpage-resources/loadCsv.js"></script>
     <script type="module" src="webpage-resources/modal.js"></script>
+    <script type="module" src="webpage-resources/importCsv.js"></script>
 </body>
 </html>
