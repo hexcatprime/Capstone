@@ -1,6 +1,6 @@
 import init, { filter_csv, sort_csv } from '../pkg/freakstone.js';
 
-async function run() {
+export async function run() {
     await init();
 
     const resultTable = document.getElementById('result');
@@ -9,22 +9,48 @@ async function run() {
     const sortOrderDropdown = document.getElementById('sort-order');
 
     let csvRows = [], filteredData = [], headers = [];
-
-    loadCsv();
+    
+    
+    await fetchLatestCsv();
 
     document.getElementById('filter-btn').addEventListener('click', handleFilter);
     sortByDropdown.addEventListener('change', handleSort);
     sortOrderDropdown.addEventListener('change', handleSort);
     exportBtn.addEventListener('click', exportCsv);
-
-    async function loadCsv() {
+    
+    async function fetchLatestCsv() {
         try {
-            const response = await fetch('../csv/moviedata.csv');
+            const response = await fetch('/latest-csv');
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            const filePath = await response.text();
+            console.log('Fetched file path:', filePath); // Log the file path to verify
+    
+            // Ensure filePath points to the correct CSV file
+            if (!filePath.includes('latest.csv')) {
+                throw new Error('File path is not correct.');
+            }
+    
+            await loadCsv(filePath);
+        } catch (error) {
+            displayError("Error fetching latest CSV.");
+            console.error('Error fetching latest CSV:', error);
+        }
+    }
+
+    async function loadCsv(filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
             const csvData = await response.text();
+            console.log('Loaded CSV data:', csvData); // Log the CSV data to verify
             processCsvData(csvData);
         } catch (error) {
             displayError("Error loading CSV data.");
-            console.error('Error:', error);
+            console.error('Error loading CSV data:', error);
         }
     }
 
@@ -142,7 +168,7 @@ async function run() {
     
 
     function displayTable(data) {
-        const numColumnsToShow = 8;
+        const numColumnsToShow = 15;
         
         const headerHtml = headers
             .slice(0, numColumnsToShow)
@@ -179,27 +205,37 @@ async function run() {
     }
 
     function exportCsv() {
+        // Function to escape and quote CSV fields
+        function escapeCsvField(field) {
+            if (field.includes('"')) {
+                field = field.replace(/"/g, '""'); // Replace " with ""
+            }
+            if (field.includes(',') || field.includes('\n') || field.includes('"')) {
+                field = `"${field}"`; // Quote the field
+            }
+            return field;
+        }
+    
         // Convert filteredData to CSV string format, including the header
         const csvString = [
-            headers.join(","), // Include the header in the CSV string
-            ...filteredData.map(row => row.join(",")) // Convert data rows to CSV format
+            headers.map(escapeCsvField).join(","), // Include the header in the CSV string
+            ...filteredData.map(row => row.map(escapeCsvField).join(",")) // Convert data rows to CSV format
         ].join("\n");
-
+    
         // Create a Blob from the CSV string
         const blob = new Blob([csvString], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
-
+    
         // Create a link element and trigger a download
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'moviedata.csv';
+        a.download = 'latest.csv';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        
+    
         // Clean up the URL object
         URL.revokeObjectURL(url);
     }
-}
-
+}    
 run();

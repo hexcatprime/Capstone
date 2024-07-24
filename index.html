@@ -7,20 +7,26 @@
     <link rel="stylesheet" href="webpage-resources/style.css">
 </head>
 <body>
+    <!-- page wrapper -->
     <div class="wrapper">
+        <!-- sidebar -->
         <aside class="sidebar">
             <h1>Movie Cataloger</h1>
+            <!-- buttons -->
             <div class="sidebar-buttons">
                 <button id="new-movie">New Movie</button>
                 <button id="filter">Filter</button>
+                <button id="import">Import</button>
                 <button id="export">Export</button>
-                <button id="settings">Manage Data</button>
+                <button id="manage-data">Manage Data</button>
             </div>
         </aside>
+        <!-- main content-->
         <main class="main-content">
             <div class="header">
                 <h2>All Movies</h2>
             </div>
+            <!-- sorting dropdown -->
             <div class="controls">
                 <div class="sort-controls">
                     <label for="sort-by">Sort By:</label>
@@ -43,6 +49,7 @@
         </main>
     </div>
     
+    <!-- filter modal -->
     <div id="filterModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -86,10 +93,122 @@
             <button id="filter-btn">Apply Filter</button>
         </div>
     </div>
+
+    <!-- new movie modal-->
+    <div id="newMovieModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeNewMovieModal">&times;</span>
+            <h2>Add New Movie</h2>
+            <form id="new-movie-form">
+                <div>
+                    <label for="poster">Poster URL:</label>
+                    <input type="text" id="poster" name="poster" placeholder="Enter poster URL">
+                </div>
+                <div>
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" placeholder="Enter title" required>
+                </div>
+                <div>
+                    <label for="year">Year:</label>
+                    <input type="text" id="year" name="year" placeholder="Enter year">
+                </div>
+                <div>
+                    <label for="rated">Rated:</label>
+                    <input type="text" id="rated" name="rated" placeholder="Enter rating">
+                </div>
+                <div>
+                    <label for="runtime">Runtime:</label>
+                    <input type="text" id="runtime" name="runtime" placeholder="Enter runtime">
+                </div>
+                <div>
+                    <label for="imdb">IMDB:</label>
+                    <input type="text" id="imdb" name="imdb" placeholder="Enter IMDB rating">
+                </div>
+                <div>
+                    <label for="rottenTomatoes">Rotten Tomatoes:</label>
+                    <input type="text" id="rottenTomatoes" name="rottenTomatoes" placeholder="Enter Rotten Tomatoes rating">
+                </div>
+                <div>
+                    <label for="metacritic">Metacritic:</label>
+                    <input type="text" id="metacritic" name="metacritic" placeholder="Enter Metacritic rating">
+                </div>
+                <div>
+                    <label for="released">Released:</label>
+                    <input type="text" id="released" name="released" placeholder="Enter release date">
+                </div>
+                <div>
+                    <label for="genre">Genre:</label>
+                    <input type="text" id="genre" name="genre" placeholder="Enter genre">
+                </div>
+                <div>
+                    <label for="director">Director:</label>
+                    <input type="text" id="director" name="director" placeholder="Enter director">
+                </div>
+                <div>
+                    <label for="writer">Writer:</label>
+                    <input type="text" id="writer" name="writer" placeholder="Enter writer">
+                </div>
+                <div>
+                    <label for="actors">Actors:</label>
+                    <input type="text" id="actors" name="actors" placeholder="Enter actors">
+                </div>
+                <div>
+                    <label for="plot">Plot:</label>
+                    <textarea id="plot" name="plot" placeholder="Enter plot"></textarea>
+                </div>
+                <div>
+                    <label for="language">Language:</label>
+                    <input type="text" id="language" name="language" placeholder="Enter language">
+                </div>
+                <div>
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country" placeholder="Enter country">
+                </div>
+                <div>
+                    <label for="awards">Awards:</label>
+                    <input type="text" id="awards" name="awards" placeholder="Enter awards">
+                </div>
+                <div>
+                    <label for="boxOffice">Box Office:</label>
+                    <input type="text" id="boxOffice" name="boxOffice" placeholder="Enter box office">
+                </div>
+                <button type="submit">Add Movie</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- import modal -->
+    <div id="importCsvModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeImportCsvModal">&times;</span>
+            <h2>Import CSV</h2>
+            <form id="import-csv-form">
+                <div>
+                    <label for="csvFile">CSV File:</label>
+                    <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+                </div>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
     
+    <div id="manageDataModal" class="modal managedata">
+        <div class="data-modal-content">
+            <h2>Manage Data</h2>
+            <button id="saveChangesBtn">Save Changes</button>
+            <button id="closeManageDataModal">Close</button>
+            <div class="data-table-container">
+                <table id="csvTable">
+                    <!-- Table content will be dynamically added here -->
+                </table>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="webpage-resources/loadCsv.js"></script>
     <script type="module" src="webpage-resources/modal.js"></script>
+    <script type="module" src="webpage-resources/newMovie.js"></script>
     <script type="module" src="webpage-resources/importCsv.js"></script>
+    <script type="module" src="webpage-resources/updateCsv.js"></script>
 </body>
 </html>

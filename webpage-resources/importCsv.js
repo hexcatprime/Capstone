@@ -1,28 +1,52 @@
-// importCsv.js
+// js/importCsv.js
+import { run } from './loadCsv.js';
 
-document.getElementById('import').addEventListener('click', () => {
-    document.getElementById('file-input').click();
+document.addEventListener('DOMContentLoaded', () => {
+    const importCsvModal = document.getElementById('importCsvModal');
+    const importCsvBtn = document.getElementById('import');
+    const closeImportCsvModal = document.getElementById('closeImportCsvModal');
+    const importCsvForm = document.getElementById('import-csv-form');
+
+    // Open the modal
+    importCsvBtn.addEventListener('click', () => {
+        importCsvModal.style.display = 'block';
+    });
+
+    // Close the modal
+    closeImportCsvModal.addEventListener('click', () => {
+        importCsvModal.style.display = 'none';
+    });
+
+    // Close the modal when clicking outside of the modal content
+    window.addEventListener('click', (event) => {
+        if (event.target == importCsvModal) {
+            importCsvModal.style.display = 'none';
+        }
+    });
+
+    // Handle the form submission
+    importCsvForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(importCsvForm);
+
+        try {
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('CSV uploaded successfully!');
+                importCsvModal.style.display = 'none';
+                // Reload the CSV data
+                run(); // Make sure fetchLatestCsv is accessible here
+            } else {
+                alert('Failed to upload CSV');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error uploading CSV');
+        }
+    });
 });
-
-document.getElementById('file-input').addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file && file.type === 'text/csv') {
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            const csvData = e.target.result;
-            processCsvData(csvData); // Replace this with your function to handle CSV data
-        };
-        
-        reader.readAsText(file);
-    } else {
-        alert('Please select a valid CSV file.');
-    }
-});
-
-function processCsvData(csvData) {
-    // Implement your CSV processing logic here
-    // For example, you might want to parse it and display it in the table
-    console.log(csvData);
-    // Example: parse CSV data and display in table
-}

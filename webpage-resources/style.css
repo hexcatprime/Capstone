@@ -197,4 +197,52 @@ th:nth-child(3), td:nth-child(3) {
     color: #fff;
     text-decoration: none;
 }
-    
+
+/* Styling for the managedata modal */
+.managedata {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 250px; /* Start after the sidebar */
+    width: calc(100% - 250px); /* Adjust width to fill remaining space */
+    height: 90%; /* Full height of the viewport */
+    overflow: hidden; /* Prevent scrolling on the modal itself */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.data-modal-content {
+    background-color: #121212;
+    margin: 0; /* Remove margin to fit the screen width */
+    border: 1px solid #888;
+    padding:20px;
+    width: 100%; /* Full width of the modal container */
+    height: 100%; /* Full height of the modal container */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    overflow: hidden; /* Hide overflow of the modal content */
+    display: flex;
+    flex-direction: column;
+}
+
+.data-modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.data-table-container {
+    flex: 1;
+    overflow: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto; /* Make sure table layout is fixed */
+}
