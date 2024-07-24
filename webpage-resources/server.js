@@ -94,30 +94,40 @@ app.post('/upload', upload.single('csvFile'), (req, res) => {
 });
 
 
-app.post('/save-csv-data', express.json(), (req, res) => {
+app.post('/save-csv-data', (req, res) => {
     const csvPath = path.join(__dirname, '..', 'csv', 'latest.csv');
     const data = req.body;
 
-    if (!Array.isArray(data) || data.length === 0) {
+    // Debugging information
+    console.log('Received data:', data);
+
+    // Basic validation
+    if (!Array.isArray(data) || data.length === 0 || !data[0] || typeof data[0] !== 'object') {
+        console.error('Invalid data format received.');
         return res.status(400).send('Invalid data format.');
     }
 
-    // Use headers from the first data entry
-    const header = Object.keys(data[0]).map(key => ({ id: key, title: key }));
-
-    const writer = createObjectCsvWriter({
-        path: csvPath,
-        header: header
-    });
-
-    writer.writeRecords(data)
-        .then(() => {
-            res.status(200).send('CSV data updated successfully.');
+    // Convert data to CSV format
+    const header = Object.keys(data[0]);
+    const csvLines = [
+        header.join(','), // Header row
+        ...data.map(row => {
+            return header.map(fieldName => {
+                const value = row[fieldName] || '';
+                return `"${value.replace(/"/g, '""')}"`;
+            }).join(',');
         })
-        .catch(err => {
+    ].join('\n');
+
+    // Replace data in the existing CSV file
+    fs.writeFile(csvPath, csvLines, (err) => {
+        if (err) {
             console.error('Error writing CSV file:', err);
-            res.status(500).send('Error writing CSV file.');
-        });
+            return res.status(500).send('Error writing CSV file.');
+        }
+        console.log('CSV data updated successfully.');
+        res.status(200).send('CSV data updated successfully.');
+    });
 });
 
 

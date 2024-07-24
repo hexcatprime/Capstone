@@ -1,5 +1,5 @@
 import { run } from './loadCsv.js';
-    
+
 document.addEventListener('DOMContentLoaded', () => {
     const manageDataModal = document.getElementById('manageDataModal');
     const manageDataBtn = document.getElementById('manage-data');
@@ -18,30 +18,21 @@ document.addEventListener('DOMContentLoaded', () => {
         manageDataModal.style.display = 'none';
     });
 
-    // Save changes to the CSV file
     saveChangesBtn.addEventListener('click', async () => {
         const rows = csvTable.querySelectorAll('tr');
         const data = [];
-        
-        // Collect data from the table
+
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
             if (cells.length > 0) {
                 const rowData = {};
                 cells.forEach((cell, index) => {
-                    // Assuming the headers are columns 0 and greater in order
                     rowData[`column${index}`] = cell.textContent;
                 });
                 data.push(rowData);
             }
         });
-    
-        // Validate data before sending
-        if (data.length === 0 || !data[0].hasOwnProperty('column0')) {
-            alert('No data to save.');
-            return;
-        }
-    
+
         try {
             const response = await fetch('/save-csv-data', {
                 method: 'POST',
@@ -50,11 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify(data)
             });
-    
+
             if (response.ok) {
                 alert('Changes saved successfully.');
                 manageDataModal.style.display = 'none';
-                await run(); // Reload or update as necessary
+                await run(); // Refresh the CSV data if necessary
             } else {
                 alert('Failed to save changes.');
             }
@@ -63,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error saving changes.');
         }
     });
-    
+
     // Load CSV data into the table
     async function loadCsvData() {
         try {
