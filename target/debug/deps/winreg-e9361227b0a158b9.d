@@ -1,0 +1,11 @@
+C:\Users\hoganc3\Documents\GitHub\freakstone\target\debug\deps\libwinreg-e9361227b0a158b9.rmeta: C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\lib.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\common.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\enums.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_key.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_key_metadata.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_value.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\types.rs
+
+C:\Users\hoganc3\Documents\GitHub\freakstone\target\debug\deps\winreg-e9361227b0a158b9.d: C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\lib.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\common.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\enums.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_key.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_key_metadata.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_value.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\types.rs
+
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\lib.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\common.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\enums.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_key.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_key_metadata.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\reg_value.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\winreg-0.52.0\src\types.rs:
