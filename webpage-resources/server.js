@@ -9,40 +9,37 @@ const csv = require('csv-parser');
 const app = express();
 const PORT = 3000;
 
-// Configure multer for file storage
+// configure multer for file storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '..', 'csv')); // Path to save the uploaded file
+        cb(null, path.join(__dirname, '..', 'csv'));
     },
     filename: (req, file, cb) => {
-        cb(null, 'latest.csv'); // Rename the uploaded file to 'latest.csv'
+        cb(null, 'latest.csv');
     }
 });
 
 const upload = multer({ storage: storage });
 
-// Middleware setup
+// middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use(express.static(path.join(__dirname, '..'))); // Serve static files from the root directory
-app.use('/pkg', express.static(path.join(__dirname, '..', 'pkg'))); // Serve pkg directory
+app.use(express.static(path.join(__dirname, '..')));
+app.use('/pkg', express.static(path.join(__dirname, '..', 'pkg')));
 
-// Route to get the latest CSV file path
 app.get('/latest-csv', (req, res) => {
     const latestCsvPath = path.join(__dirname, '..', 'csv', 'latest.csv');
 
-    console.log('Checking CSV path:', latestCsvPath); // Debugging
 
     if (fs.existsSync(latestCsvPath)) {
-        console.log('CSV file found, sending path:', '/csv/latest.csv'); // Debugging
         res.send('/csv/latest.csv');
     } else {
-        console.error('CSV file not found:', latestCsvPath); // Debugging
         res.status(404).send('CSV file not found.');
     }
 });
 
+// for updateCsv.js
 app.get('/get-csv-data', (req, res) => {
     const csvPath = path.join(__dirname, '..', 'csv', 'latest.csv');
     const results = [];
@@ -59,13 +56,13 @@ app.get('/get-csv-data', (req, res) => {
         });
 });
 
-// Route to serve the latest CSV file
+// for updateCsv.js
 app.get('/fetchLatestCsv', (req, res) => {
     const csvPath = path.join(__dirname, '..', 'csv', 'latest.csv');
     res.sendFile(csvPath);
 });
 
-// Route to append a new row to the CSV file
+// for newMovie.js
 app.post('/append-csv', (req, res) => {
     const { row } = req.body;
     if (!row || !Array.isArray(row)) {
@@ -85,7 +82,7 @@ app.post('/append-csv', (req, res) => {
     });
 });
 
-// Route to handle file upload
+// for importCsv.js
 app.post('/upload', upload.single('csvFile'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded');
@@ -93,24 +90,22 @@ app.post('/upload', upload.single('csvFile'), (req, res) => {
     res.send('File uploaded and saved');
 });
 
-
+// for updateCsv.js
 app.post('/save-csv-data', (req, res) => {
+    // path
     const csvPath = path.join(__dirname, '..', 'csv', 'latest.csv');
     const data = req.body;
 
-    // Debugging information
-    console.log('Received data:', data);
-
-    // Basic validation
+    // check invalid data format
     if (!Array.isArray(data) || data.length === 0 || !data[0] || typeof data[0] !== 'object') {
         console.error('Invalid data format received.');
         return res.status(400).send('Invalid data format.');
     }
 
-    // Convert data to CSV format
+    // join
     const header = Object.keys(data[0]);
     const csvLines = [
-        header.join(','), // Header row
+        header.join(','),
         ...data.map(row => {
             return header.map(fieldName => {
                 const value = row[fieldName] || '';
@@ -119,7 +114,7 @@ app.post('/save-csv-data', (req, res) => {
         })
     ].join('\n');
 
-    // Replace data in the existing CSV file
+    // replace data in the csv file
     fs.writeFile(csvPath, csvLines, (err) => {
         if (err) {
             console.error('Error writing CSV file:', err);
@@ -130,9 +125,7 @@ app.post('/save-csv-data', (req, res) => {
     });
 });
 
-
-
-
+// port 3000    
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

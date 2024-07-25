@@ -7,24 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeImportCsvModal = document.getElementById('closeImportCsvModal');
     const importCsvForm = document.getElementById('import-csv-form');
 
-    // Open the modal
+    // open the import modal
     importCsvBtn.addEventListener('click', () => {
         importCsvModal.style.display = 'block';
     });
 
-    // Close the modal
+    // close the import modal
     closeImportCsvModal.addEventListener('click', () => {
         importCsvModal.style.display = 'none';
     });
 
-    // Close the modal when clicking outside of the modal content
+    // close the modal when clicking outside
     window.addEventListener('click', (event) => {
         if (event.target == importCsvModal) {
             importCsvModal.style.display = 'none';
         }
     });
 
-    // Handle the form submission
+    // handle the form submission
     importCsvForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 

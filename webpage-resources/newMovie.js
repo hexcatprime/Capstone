@@ -16,28 +16,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeNewMovieModal = document.getElementById('closeNewMovieModal');
     const newMovieForm = document.getElementById('new-movie-form');
 
-    // Open the new movie modal
+    // open the new movie modal
     newMovieBtn.onclick = function() {
         newMovieModal.style.display = "block";
     }
 
-    // Close the new movie modal
+    // close the new movie modal
     closeNewMovieModal.onclick = function() {
         newMovieModal.style.display = "none";
     }
 
-    // Close the new movie modal if clicking outside of it
+    // close the new movie modal if clicking outside of it
     window.onclick = function(event) {
         if (event.target === newMovieModal) {
             newMovieModal.style.display = "none";
         }
     }
 
-    // Handle form submission for adding a new movie
+    // form submission for adding movie
     newMovieForm.onsubmit = async function(event) {
         event.preventDefault();
         const formData = new FormData(this);
 
+        // if empty, N/A
         const newRow = [
             formData.get('poster') || 'N/A',
             formData.get('title') || 'N/A',
@@ -59,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.get('boxOffice') || 'N/A'
         ];
 
+        // write to csv
         try {
             const response = await fetch('/append-csv', {
                 method: 'POST',
