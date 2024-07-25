@@ -7,30 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveChangesBtn = document.getElementById('saveChangesBtn');
     const csvTable = document.getElementById('csvTable');
 
-    // open the manage data modal
-    manageDataBtn.addEventListener('click', async () => {
+    // Open the manage data modal
+    manageDataBtn.addEventListener('click', () => {
         manageDataModal.style.display = 'block';
-        await loadCsvData();
+        loadCsvData();
     });
 
-    // close the manage data modal
+    // Close the manage data modal
     closeManageDataModal.addEventListener('click', () => {
         manageDataModal.style.display = 'none';
     });
 
-    // close the manage data modal if clicking outside of it
-    window.onclick = function(event) {
-        if (event.target === newMovieModal) {
-            manageDataModal.style.display = "none";
-        }
-    }
-
-    // save button
+    // Save button
     saveChangesBtn.addEventListener('click', async () => {
         const rows = csvTable.querySelectorAll('tr');
         const data = [];
 
-        // data
+        // Data
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
             if (cells.length > 0) {
@@ -42,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // save csv
+        // Save CSV
         try {
             const response = await fetch('/save-csv-data', {
                 method: 'POST',
@@ -65,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // load csv
+    // Load CSV data
     async function loadCsvData() {
         try {
             const response = await fetch('/get-csv-data');

@@ -132,7 +132,15 @@ app.post('/upload-video', uploadVideo.single('videoFile'), (req, res) => {
         if (err) {
             return res.status(500).send('Error renaming file');
         }
-        res.json({ filename: sanitizedFilename, filepath: normalizedPath });
+
+        // Check if the file exists
+        fs.access(normalizedPath, fs.constants.F_OK, (err) => {
+            if (err) {
+                return res.status(404).send('File not found after renaming');
+            }
+
+            res.json({ filename: sanitizedFilename, filepath: normalizedPath });
+        });
     });
 });
 

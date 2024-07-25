@@ -17,9 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // close the modal if clicking outside of it
+    
     window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
+        if (event.target === filterModal) {
+            filterModal.style.display = "none";
         }
     }
 

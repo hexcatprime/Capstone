@@ -246,3 +246,47 @@ th:nth-child(3), td:nth-child(3) {
 .file-upload button:hover {
     background-color: #5a6268;
 }
+
+.managedata {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 250px; /* Align with the width of the sidebar */
+    width: calc(100% - 250px); /* Full width minus the sidebar width */
+    height: 100%; /* Full height */
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+}
+
+.data-modal-content {
+    background-color: #121212;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    height: 90%;
+    max-width: none; /* Remove max-width constraint */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.modal-buttons button {
+    margin: 5px;
+    width: 100%;
+}
+
+.data-table-container {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+}
