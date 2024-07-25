@@ -6,26 +6,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const span = document.getElementsByClassName("close")[0];
     const filterButton = document.getElementById("filter-btn");
 
-    // Open the modal
+    // open the modal
     btn.onclick = function() {
         modal.style.display = "block";
     }
 
-    // Close the modal
+    // close the modal
     span.onclick = function() {
         modal.style.display = "none";
     }
 
-    // Close the modal if clicking outside of it
+    // close the modal if clicking outside of it
     window.onclick = function(event) {
         if (event.target === modal) {
             modal.style.display = "none";
         }
     }
 
-    // Apply the filter when clicking the button in the modal
+    // apply the filter
     filterButton.onclick = function() {
-        handleFilter(); // Ensure this function is available
+        handleFilter();
         modal.style.display = "none";
     }
 });
