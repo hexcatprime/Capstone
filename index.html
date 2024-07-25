@@ -172,6 +172,13 @@
                     <label for="boxOffice">Box Office:</label>
                     <input type="text" id="boxOffice" name="boxOffice" placeholder="Enter box office">
                 </div>
+                <div>
+                    <label for="videoFile">Upload Video:</label>
+                    <div class="file-upload">
+                        <input type="file" id="videoFile" name="videoFile" accept="video/*">
+                        <button type="button" id="uploadVideoBtn">Upload Video</button>
+                    </div>
+                </div>
                 <button type="submit">Add Movie</button>
             </form>
         </div>
@@ -212,5 +219,6 @@
     <script type="module" src="webpage-resources/newMovie.js"></script>
     <script type="module" src="webpage-resources/importCsv.js"></script>
     <script type="module" src="webpage-resources/updateCsv.js"></script>
+    <script type="module" src="webpage-resources/uploadMovie.js"></script>
 </body>
 </html>

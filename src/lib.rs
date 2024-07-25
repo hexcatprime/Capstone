@@ -45,7 +45,6 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
     records.sort_by(|a, b| {
         let a_val = a.get(column_index).unwrap_or(&String::new()).clone();
         let b_val = b.get(column_index).unwrap_or(&String::new()).clone();
-        println!("Comparing: {} with {}", a_val, b_val); // Debug output
         
         let cmp = match (a_val.parse::<f64>(), b_val.parse::<f64>()) {
             (Ok(a_num), Ok(b_num)) => a_num.partial_cmp(&b_num).unwrap_or(std::cmp::Ordering::Equal),
@@ -68,4 +67,10 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
         .join("\n");
 
     format!("{}\n{}", header, sorted_csv)
+}
+
+#[wasm_bindgen]
+pub fn process_video(data: &[u8]) -> String {
+    let data_length = data.len();
+    format!("Processed video file of {} bytes", data_length)
 }
