@@ -1,3 +1,4 @@
+/* Global styles */
 html, body {
     height: 100%;
     margin: 0;
@@ -14,13 +15,13 @@ body {
     height: 100vh;
 }
 
+/* Layout */
 .wrapper {
     display: flex;
     width: 100%;
     flex: 1;
 }
 
-/* sidebat styles */
 .sidebar {
     width: 250px;
     background-color: #1f1f1f;
@@ -30,6 +31,14 @@ body {
     flex-direction: column;
 }
 
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar */
 .sidebar h1 {
     font-size: 24px;
     margin: 0 0 20px;
@@ -53,20 +62,14 @@ body {
     background-color: #5a6268;
 }
 
-.main-content {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
+/* Header */
 .header h2 {
     font-size: 80px;
     margin: 0 0 20px;
     text-align: center;
 }
 
-/* sort dropdown */
+/* Sort and filter controls */
 .sort-controls {
     display: flex;
     align-items: center;
@@ -87,23 +90,7 @@ body {
     cursor: pointer;
 }
 
-input, button {
-    margin-bottom: 10px;
-}
-
-button {
-    background-color: #6c757d;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #5a6268;
-}
-
-/* main table styles */
+/* Table */
 .table-container {
     flex: 1;
     overflow-y: auto;
@@ -116,6 +103,7 @@ button:hover {
 table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: auto; /* Adjusted for responsive */
 }
 
 th, td {
@@ -151,12 +139,6 @@ th:nth-child(1), td:nth-child(1) {
     width: 100px;
 }
 
-.img-cell {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-}
-
 th:nth-child(2), td:nth-child(2) {
     width: 200px;
 }
@@ -165,21 +147,26 @@ th:nth-child(3), td:nth-child(3) {
     width: 120px;
 }
 
-/* modal styles */
-.modal {
+.img-cell {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* Modal */
+.modal, .managedata {
     display: none;
     position: fixed;
     z-index: 1;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
 }
 
-.modal-content {
+.modal-content, .data-modal-content {
     background-color: #121212;
     margin: 5% auto;
     padding: 20px;
@@ -196,36 +183,24 @@ th:nth-child(3), td:nth-child(3) {
     cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: #fff;
     text-decoration: none;
 }
 
-/* managedata modal styles */
 .managedata {
-    display: none;
-    position: fixed;
-    z-index: 1;
     top: 0;
     left: 250px;
     width: calc(100% - 250px);
-    height: 90%; 
+    height: 90%;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .data-modal-content {
-    background-color: #121212;
-    margin: 0;
-    border: 1px solid #888;
-    padding:20px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box; 
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .data-modal-content h2 {
@@ -238,28 +213,17 @@ th:nth-child(3), td:nth-child(3) {
     margin-bottom: 10px;
     width: 100%;
 }
+
 .modal-buttons button {
     margin: 5px;
     width: 100%;
 }
 
-.data-table-container {
-    flex: 1;
-    overflow: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto; 
-}
-
+/* File upload */
 .file-upload {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between input and button */
+    gap: 10px;
 }
 
 .file-upload input[type="file"] {

@@ -10,7 +10,6 @@ export async function run() {
 
     let csvRows = [], filteredData = [], headers = [];
     
-    
     await fetchLatestCsv();
 
     document.getElementById('filter-btn').addEventListener('click', handleFilter);
@@ -25,9 +24,7 @@ export async function run() {
                 throw new Error('Network response was not ok.');
             }
             const filePath = await response.text();
-            console.log('Fetched file path:', filePath); // Log the file path to verify
     
-            // Ensure filePath points to the correct CSV file
             if (!filePath.includes('latest.csv')) {
                 throw new Error('File path is not correct.');
             }
@@ -35,7 +32,6 @@ export async function run() {
             await loadCsv(filePath);
         } catch (error) {
             displayError("Error fetching latest CSV.");
-            console.error('Error fetching latest CSV:', error);
         }
     }
 
@@ -46,11 +42,9 @@ export async function run() {
                 throw new Error('Network response was not ok.');
             }
             const csvData = await response.text();
-            console.log('Loaded CSV data:', csvData); // Log the CSV data to verify
             processCsvData(csvData);
         } catch (error) {
             displayError("Error loading CSV data.");
-            console.error('Error loading CSV data:', error);
         }
     }
 
@@ -97,7 +91,6 @@ export async function run() {
         }
     
         if (rows.length === 0) {
-            console.error("No rows parsed from CSV data.");
             return;
         }
     
@@ -108,8 +101,6 @@ export async function run() {
     
         displayTable(filteredData);
     }
-    
-    
 
     async function handleFilter() {
         const titleQuery = document.getElementById('title-filter').value.trim().toLowerCase();
@@ -143,29 +134,22 @@ export async function run() {
         displayTable(filteredData);
     }
     
-    
     async function handleSort() {
         const sortColumn = parseInt(sortByDropdown.value);
         const sortOrder = sortOrderDropdown.value;
     
-        // Convert filteredData to CSV string format, including the header
         const csvString = [
-            headers.join(","), // Include the header in the CSV string
-            ...filteredData.map(row => row.join(",")) // Convert data rows to CSV format
+            headers.join(","), 
+            ...filteredData.map(row => row.join(","))
         ].join("\n");
     
         try {
-            // Call the WebAssembly function to sort the CSV data
             const sortedCsv = sort_csv(csvString, sortColumn, sortOrder);
-    
-            // Process the sorted CSV data
             processCsvData(sortedCsv);
         } catch (error) {
             displayError("Error sorting CSV data.");
-            console.error('Error:', error);
         }
     }
-    
 
     function displayTable(data) {
         const numColumnsToShow = 8;
@@ -205,28 +189,24 @@ export async function run() {
     }
 
     function exportCsv() {
-        // Function to escape and quote CSV fields
         function escapeCsvField(field) {
             if (field.includes('"')) {
-                field = field.replace(/"/g, '""'); // Replace " with ""
+                field = field.replace(/"/g, '""');
             }
             if (field.includes(',') || field.includes('\n') || field.includes('"')) {
-                field = `"${field}"`; // Quote the field
+                field = `"${field}"`;
             }
             return field;
         }
     
-        // Convert filteredData to CSV string format, including the header
         const csvString = [
-            headers.map(escapeCsvField).join(","), // Include the header in the CSV string
-            ...filteredData.map(row => row.map(escapeCsvField).join(",")) // Convert data rows to CSV format
+            headers.map(escapeCsvField).join(","),
+            ...filteredData.map(row => row.map(escapeCsvField).join(","))
         ].join("\n");
     
-        // Create a Blob from the CSV string
         const blob = new Blob([csvString], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
     
-        // Create a link element and trigger a download
         const a = document.createElement('a');
         a.href = url;
         a.download = 'latest.csv';
@@ -234,8 +214,8 @@ export async function run() {
         a.click();
         document.body.removeChild(a);
     
-        // Clean up the URL object
         URL.revokeObjectURL(url);
     }
 }    
+
 run();

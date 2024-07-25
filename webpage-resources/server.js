@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const path = require('path');   
+const path = require('path');
 const multer = require('multer');
 const cors = require('cors');
 const csv = require('csv-parser');
@@ -19,14 +19,12 @@ const csvStorage = multer.diskStorage({
     }
 });
 
-
 // configure multer for video file storage
 const videoStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, '..', 'uploads'));
     },
     filename: (req, file, cb) => {
-        // Use original file name for video
         cb(null, file.originalname);
     }
 });
@@ -61,7 +59,6 @@ app.get('/get-csv-data', (req, res) => {
             res.json(results);
         })
         .on('error', (err) => {
-            console.error('Error reading CSV file:', err);
             res.status(500).send('Error reading CSV file.');
         });
 });
@@ -74,8 +71,6 @@ app.get('/fetchLatestCsv', (req, res) => {
 app.get('/get-video/:filename', (req, res) => {
     const filename = req.params.filename;
     const videoPath = path.join(__dirname, '..', 'uploads', filename);
-
-    console.log('Request for video file:', videoPath);
 
     if (fs.existsSync(videoPath)) {
         res.sendFile(videoPath);
@@ -93,10 +88,8 @@ app.post('/append-csv', (req, res) => {
     const csvPath = path.join(__dirname, '..', 'csv', 'latest.csv');
     fs.appendFile(csvPath, csvLine, (err) => {
         if (err) {
-            console.error('Error appending to CSV file:', err);
             return res.status(500).send('Error appending to CSV file.');
         }
-        console.log('Row appended successfully.');
         res.status(200).send('Row appended successfully.');
     });
 });
@@ -113,7 +106,6 @@ app.post('/save-csv-data', (req, res) => {
     const data = req.body;
 
     if (!Array.isArray(data) || data.length === 0 || !data[0] || typeof data[0] !== 'object') {
-        console.error('Invalid data format received.');
         return res.status(400).send('Invalid data format.');
     }
 
@@ -130,10 +122,8 @@ app.post('/save-csv-data', (req, res) => {
 
     fs.writeFile(csvPath, csvLines, (err) => {
         if (err) {
-            console.error('Error writing CSV file:', err);
             return res.status(500).send('Error writing CSV file.');
         }
-        console.log('CSV data updated successfully.');
         res.status(200).send('CSV data updated successfully.');
     });
 });
@@ -144,23 +134,29 @@ app.post('/upload-video', uploadVideo.single('videoFile'), (req, res) => {
         return res.status(400).send('No video file uploaded');
     }
 
-    // Rename the file
-    const newFilename = `${Date.now()}_${req.file.originalname}`;
-    const targetPath = path.join(__dirname, '..', 'uploads', newFilename);
+    const filename = `${req.file.originalname}`;
+    const targetPath = path.join(__dirname, '..', 'uploads', filename);
 
     fs.rename(req.file.path, targetPath, (err) => {
         if (err) {
-            console.error('Error renaming file:', err);
             return res.status(500).send('Error renaming file');
         }
-
-        console.log('File renamed successfully to:', newFilename);
-
-        // Respond with the new filename in JSON format
-        res.json({ filename: newFilename });
+        res.json({ filename: filename });
     });
 });
 
+// New route for deleting a video file
+app.delete('/delete-video/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const videoPath = path.join(__dirname, '..', 'uploads', filename);
+
+    fs.unlink(videoPath, (err) => {
+        if (err) {
+            return res.status(500).send('Error deleting video file.');
+        }
+        res.status(200).send('Video file deleted successfully.');
+    });
+});
 
 // port 3000    
 app.listen(PORT, () => {

@@ -1,4 +1,4 @@
-import init, { process_video } from '../pkg/freakstone.js'
+import init, { process_video } from '../pkg/freakstone.js';
 
 document.getElementById('uploadVideoBtn').addEventListener('click', function() {
     const videoFile = document.getElementById('videoFile').files[0];
@@ -14,33 +14,37 @@ async function uploadVideo(file) {
     formData.append('videoFile', file);
 
     try {
-        const response = await fetch('/upload-video', {
+        const uploadResponse = await fetch('/upload-video', {
             method: 'POST',
             body: formData
         });
 
-        // Check if response is JSON
-        if (response.headers.get('Content-Type')?.includes('application/json')) {
-            const data = await response.json();
-            const filename = data.filename;
+        if (!uploadResponse.ok) {
+            throw new Error('Upload failed');
+        }
 
-            console.log('Video uploaded successfully with filename:', filename);
+        const uploadData = await uploadResponse.json();
+        const filename = uploadData.filename; // Ensure your server returns this
 
-            // Fetch the video using the new filename
-            fetch(`/get-video/${filename}`)
-                .then(response => response.arrayBuffer())
-                .then(async (arrayBuffer) => {
-                    const bytes = new Uint8Array(arrayBuffer);
+        const videoResponse = await fetch(`/get-video/${filename}`);
+        if (!videoResponse.ok) {
+            throw new Error('Failed to fetch video');
+        }
 
-                    // Call the WebAssembly function
-                    const result = process_video(bytes);
-                    console.log(result);
-                })
-                .catch(error => console.error('Error fetching video file:', error));
+        const arrayBuffer = await videoResponse.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
 
-        } else {
-            const text = await response.text();
-            console.error('Unexpected response format:', text);
+        // Call the WebAssembly function
+        const result = process_video(bytes);
+        alert(result);
+
+        // Delete the video file after processing
+        const deleteResponse = await fetch(`/delete-video/${filename}`, {
+            method: 'DELETE'
+        });
+
+        if (!deleteResponse.ok) {
+            throw new Error('Failed to delete video');
         }
 
     } catch (error) {
