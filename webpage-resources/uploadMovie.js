@@ -1,4 +1,4 @@
-import init, { process_video } from '../pkg/freakstone.js';
+import init, { process_video } from '../pkg/freakstone.js'
 
 document.getElementById('uploadVideoBtn').addEventListener('click', function() {
     const videoFile = document.getElementById('videoFile').files[0];
@@ -19,20 +19,29 @@ async function uploadVideo(file) {
             body: formData
         });
 
-        const data = await response.json();
-        console.log('Video uploaded successfully:', data);
+        // Check if response is JSON
+        if (response.headers.get('Content-Type')?.includes('application/json')) {
+            const data = await response.json();
+            const filename = data.filename;
 
-        fetch('/get-video')
-        .then(response => response.arrayBuffer())
-        .then(async (arrayBuffer) => {
-            const bytes = new Uint8Array(arrayBuffer);
+            console.log('Video uploaded successfully with filename:', filename);
 
-            // Call the WebAssembly function
-            const result = process_video(bytes);
-            alert(result);
-        })
-        .catch(error => console.error('Error fetching video file:', error));
+            // Fetch the video using the new filename
+            fetch(`/get-video/${filename}`)
+                .then(response => response.arrayBuffer())
+                .then(async (arrayBuffer) => {
+                    const bytes = new Uint8Array(arrayBuffer);
 
+                    // Call the WebAssembly function
+                    const result = process_video(bytes);
+                    console.log(result);
+                })
+                .catch(error => console.error('Error fetching video file:', error));
+
+        } else {
+            const text = await response.text();
+            console.error('Unexpected response format:', text);
+        }
 
     } catch (error) {
         console.error('Error uploading or processing video:', error);

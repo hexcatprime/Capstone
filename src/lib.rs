@@ -71,7 +71,6 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
 
 #[wasm_bindgen]
 pub fn process_video(data: &[u8]) -> String {
-    // Simulate processing of video file
     let data_length = data.len();
     format!("Processed video file of {} bytes", data_length)
 }

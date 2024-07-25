@@ -71,10 +71,10 @@ app.get('/fetchLatestCsv', (req, res) => {
     res.sendFile(csvPath);
 });
 
-app.get('/get-video', (req, res) => {
-    // Replace 'your_video_file.mp4' with dynamic filename if needed
-    const videoPath = path.join(__dirname, '..', 'uploads', 'your_video_file.mp4');
-    
+app.get('/get-video/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const videoPath = path.join(__dirname, '..', 'uploads', filename);
+
     console.log('Request for video file:', videoPath);
 
     if (fs.existsSync(videoPath)) {
@@ -144,13 +144,23 @@ app.post('/upload-video', uploadVideo.single('videoFile'), (req, res) => {
         return res.status(400).send('No video file uploaded');
     }
 
-    // Log file information
-    console.log('Received upload-video request');
-    console.log('File info:', req.file);
+    // Rename the file
+    const newFilename = `${Date.now()}_${req.file.originalname}`;
+    const targetPath = path.join(__dirname, '..', 'uploads', newFilename);
 
-    // No need to manually move file, multer does it for you
-    res.send('Video file uploaded successfully');
+    fs.rename(req.file.path, targetPath, (err) => {
+        if (err) {
+            console.error('Error renaming file:', err);
+            return res.status(500).send('Error renaming file');
+        }
+
+        console.log('File renamed successfully to:', newFilename);
+
+        // Respond with the new filename in JSON format
+        res.json({ filename: newFilename });
+    });
 });
+
 
 // port 3000    
 app.listen(PORT, () => {
