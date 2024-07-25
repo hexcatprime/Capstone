@@ -1,0 +1,10 @@
+C:\Users\hoganc3\Documents\GitHub\freakstone\target\wasm32-unknown-unknown\release\deps\libgloo_storage-23da7d29d1be68b2.rmeta: C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs
+
+C:\Users\hoganc3\Documents\GitHub\freakstone\target\wasm32-unknown-unknown\release\deps\libgloo_storage-23da7d29d1be68b2.rlib: C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs
+
+C:\Users\hoganc3\Documents\GitHub\freakstone\target\wasm32-unknown-unknown\release\deps\gloo_storage-23da7d29d1be68b2.d: C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs
+
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs:
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs:

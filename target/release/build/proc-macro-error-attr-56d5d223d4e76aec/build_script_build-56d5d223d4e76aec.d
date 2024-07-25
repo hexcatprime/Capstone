@@ -1,0 +1,5 @@
+C:\Users\hoganc3\Documents\GitHub\freakstone\target\release\build\proc-macro-error-attr-56d5d223d4e76aec\build_script_build-56d5d223d4e76aec.exe: C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\proc-macro-error-attr-1.0.4\build.rs
+
+C:\Users\hoganc3\Documents\GitHub\freakstone\target\release\build\proc-macro-error-attr-56d5d223d4e76aec\build_script_build-56d5d223d4e76aec.d: C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\proc-macro-error-attr-1.0.4\build.rs
+
+C:\Users\hoganc3\.cargo\registry\src\index.crates.io-6f17d22bba15001f\proc-macro-error-attr-1.0.4\build.rs:

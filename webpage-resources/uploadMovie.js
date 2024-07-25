@@ -24,18 +24,11 @@ async function uploadVideo(file) {
         }
 
         const uploadData = await uploadResponse.json();
+        const filepath = uploadData.filepath;
         const filename = uploadData.filename; // Ensure your server returns this
 
-        const videoResponse = await fetch(`/get-video/${filename}`);
-        if (!videoResponse.ok) {
-            throw new Error('Failed to fetch video');
-        }
-
-        const arrayBuffer = await videoResponse.arrayBuffer();
-        const bytes = new Uint8Array(arrayBuffer);
-
         // Call the WebAssembly function
-        const result = process_video(bytes);
+        const result = process_video(filepath);
         alert(result);
 
         // Delete the video file after processing

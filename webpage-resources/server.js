@@ -68,17 +68,6 @@ app.get('/fetchLatestCsv', (req, res) => {
     res.sendFile(csvPath);
 });
 
-app.get('/get-video/:filename', (req, res) => {
-    const filename = req.params.filename;
-    const videoPath = path.join(__dirname, '..', 'uploads', filename);
-
-    if (fs.existsSync(videoPath)) {
-        res.sendFile(videoPath);
-    } else {
-        res.status(404).send('Video file not found.');
-    }
-});
-
 app.post('/append-csv', (req, res) => {
     const { row } = req.body;
     if (!row || !Array.isArray(row)) {
@@ -134,16 +123,19 @@ app.post('/upload-video', uploadVideo.single('videoFile'), (req, res) => {
         return res.status(400).send('No video file uploaded');
     }
 
-    const filename = `${req.file.originalname}`;
-    const targetPath = path.join(__dirname, '..', 'uploads', filename);
+    // Normalize and sanitize file name
+    const sanitizedFilename = path.basename(req.file.originalname);
+    const targetPath = path.join(__dirname, '..', 'uploads', sanitizedFilename);
+    const normalizedPath = path.normalize(targetPath);
 
     fs.rename(req.file.path, targetPath, (err) => {
         if (err) {
             return res.status(500).send('Error renaming file');
         }
-        res.json({ filename: filename });
+        res.json({ filename: sanitizedFilename, filepath: normalizedPath });
     });
 });
+
 
 // New route for deleting a video file
 app.delete('/delete-video/:filename', (req, res) => {

@@ -1,5 +1,6 @@
 use wasm_bindgen::prelude::*;
 use csv::ReaderBuilder;
+use std::path::Path;
 
 #[wasm_bindgen]
 pub fn filter_csv(csv_data: &str, query: &str) -> String {
@@ -70,7 +71,14 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
 }
 
 #[wasm_bindgen]
-pub fn process_video(data: &[u8]) -> String {
-    let data_length = data.len();
-    format!("Processed video file of {} bytes", data_length)
+pub fn process_video(filepath: &str) -> String {
+    let path = Path::new(filepath);
+
+    let normalized_path = path.display();
+
+    if path.exists() {
+        format!("File found: {}", normalized_path)
+    } else {
+        format!("File not found: {}", normalized_path)
+    }
 }
