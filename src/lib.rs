@@ -71,10 +71,8 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
 }
 
 #[wasm_bindgen]
-pub fn process_video(filepath: &str) -> String {
-    let path = Path::new(filepath);
-    let normalized_path = path.display();
+pub fn process_video(title: &str, year: &str) -> String {
 
     // Process the file assuming it exists, as the existence check is now done in Node.js
-    format!("Processing file: {}", normalized_path)
+    format!("Processing file: {}, {}", title, year)
 }
