@@ -165,17 +165,24 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 /* Modal */
-.modal, .managedata {
+.modal {
     display: none;
     position: fixed;
     z-index: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
+    width: 50vw;
+    height: 50vh;
+    top: 25vh;
+    left: 25vw;
     background-color: rgba(0, 0, 0, 0.4);
 }
+
+.managedata {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
 
 .modal-content, .data-modal-content {
     overflow-y: auto;
@@ -183,11 +190,9 @@ th:nth-child(3), td:nth-child(3) {
     margin: 0; /* Remove margin to make it full screen */
     padding: 20px;
     border: 1px solid #888;
-    width: calc(100% - 250px); /* Full width minus the sidebar */
-    height: calc(100% - 40px); /* Full height minus padding */
+    width: calc(100%); /* Full width minus the sidebar */
+    height: calc(100%); /* Full height minus padding */
     position: absolute;
-    left: 250px; /* Start after the sidebar */
-    top: 20px; /* Adjust top margin to account for any fixed header if needed */
     box-sizing: border-box; /* Ensure padding is included in height/width */
     display: flex;
     flex-direction: column;
@@ -249,20 +254,20 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 /* Common styles for modals */
-.modal-content form div {
+.modal-content div {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
 }
 
-.modal-content form label {
+.modal-content label {
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.modal-content form input,
-.modal-content form textarea,
-.modal-content form select {
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
     padding: 10px;
     border: 1px solid #333;
     border-radius: 4px;
@@ -270,15 +275,15 @@ th:nth-child(3), td:nth-child(3) {
     color: #fff;
 }
 
-.modal-content form textarea {
+.modal-content textarea {
     resize: vertical;
 }
 
-.modal-content form input[type="file"] {
+.modal-content input[type="file"] {
     padding: 0;
 }
 
-.modal-content form button {
+.modal-content button {
     padding: 10px;
     background-color: #6c757d;
     color: #fff;
@@ -288,16 +293,24 @@ th:nth-child(3), td:nth-child(3) {
     margin-top: 10px;
 }
 
-.modal-content form button:hover {
+.modal-content button:hover {
     background-color: #5a6268;
 }
 
-.modal-content form .file-upload {
+.modal-content .file-upload {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.modal-content form .file-upload input[type="file"] {
+.modal-content .file-upload input[type="file"] {
     flex: 1;
+}
+
+.csvtable {
+    table-layout: fixed;
+}
+
+.csvtable col, th, td{
+    width: 200px;
 }

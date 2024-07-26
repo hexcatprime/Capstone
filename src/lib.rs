@@ -1,6 +1,5 @@
 use wasm_bindgen::prelude::*;
 use csv::ReaderBuilder;
-use std::path::Path;
 
 #[wasm_bindgen]
 pub fn filter_csv(csv_data: &str, query: &str) -> String {

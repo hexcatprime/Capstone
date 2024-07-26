@@ -59,7 +59,7 @@ export async function run() {
                 row.push(field.replace(/""/g, '"'));
                 field = '';
             }   
-        }
+        }   
     
         for (let i = 0; i < csvData.length; i++) {
             const char = csvData[i];

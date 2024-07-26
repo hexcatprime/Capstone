@@ -1,5 +1,3 @@
-use reqwest::{self, Response};
-
 #[tokio::main]
 async fn search(title: String, year: Option<i32>) -> String{
     let api_key = "&apikey=f95d2eac";
@@ -9,7 +7,7 @@ async fn search(title: String, year: Option<i32>) -> String{
         let request_year = format!("&y={}", year.unwrap().to_string());
         request_body += &request_year;
     }
-
+    
     request_body += api_key;
 
     let response = reqwest::get(request_body)
