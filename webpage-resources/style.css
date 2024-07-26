@@ -100,14 +100,25 @@ body {
     max-height: calc(100vh - 220px);
 }
 
+.data-table-container {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0; /* Remove margin */
+    padding: 10px; /* Add padding for spacing */
+    background-color: #1f1f1f; /* Background color for the table area */
+}
+
 table {
     width: 100%;
+    height: 100%; /* Full height for the table */
     border-collapse: collapse;
-    table-layout: auto; /* Adjusted for responsive */
+    table-layout: auto;
 }
 
 th, td {
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #333;
     text-align: left;
 }
@@ -168,13 +179,20 @@ th:nth-child(3), td:nth-child(3) {
 
 .modal-content, .data-modal-content {
     background-color: #121212;
-    margin: 5% auto;
+    margin: 0; /* Remove margin to make it full screen */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
+    width: calc(100% - 250px); /* Full width minus the sidebar */
+    height: calc(100% - 40px); /* Full height minus padding */
+    position: absolute;
+    left: 250px; /* Start after the sidebar */
+    top: 20px; /* Adjust top margin to account for any fixed header if needed */
+    box-sizing: border-box; /* Ensure padding is included in height/width */
+    display: flex;
+    flex-direction: column;
 }
 
+/* Modal content styles */
 .close {
     color: #aaa;
     float: right;
@@ -188,25 +206,6 @@ th:nth-child(3), td:nth-child(3) {
     text-decoration: none;
 }
 
-.managedata {
-    top: 0;
-    left: 250px;
-    width: calc(100% - 250px);
-    height: 90%;
-    overflow: hidden;
-}
-
-.data-modal-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.data-modal-content h2 {
-    margin-top: 0;
-}
-
 .modal-buttons {
     display: flex;
     justify-content: space-between;
@@ -215,8 +214,9 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 .modal-buttons button {
-    margin: 5px;
-    width: 100%;
+    flex: 1;
+    margin: 5px; /* Adjust margin */
+    padding: 10px; /* Adjust padding */
 }
 
 /* File upload */
@@ -245,18 +245,6 @@ th:nth-child(3), td:nth-child(3) {
 
 .file-upload button:hover {
     background-color: #5a6268;
-}
-
-.managedata {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 250px; /* Align with the width of the sidebar */
-    width: calc(100% - 250px); /* Full width minus the sidebar width */
-    height: 100%; /* Full height */
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
 }
 
 /* Common styles for modals */
@@ -312,25 +300,3 @@ th:nth-child(3), td:nth-child(3) {
 .modal-content form .file-upload input[type="file"] {
     flex: 1;
 }
-    
-
-.modal-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.modal-buttons button {
-    margin: 5px;
-    width: 100%;
-}
-
-.data-table-container {
-    flex: 1;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 10px;
-}
-
-
