@@ -1,5 +1,3 @@
-import init, { process_video } from '../pkg/freakstone.js';
-
 document.getElementById('uploadVideoBtn').addEventListener('click', function() {
     const videoFile = document.getElementById('videoFile').files[0];
     if (videoFile) {
@@ -24,15 +22,16 @@ async function uploadVideo(file) {
         }
 
         const uploadData = await uploadResponse.json();
-        const filepath = uploadData.filepath;
-        const filename = uploadData.filename; // Ensure your server returns this
+        const { filename, duration, title } = uploadData;
 
-        // Call the WebAssembly function
-        const result = process_video(filepath);
-        alert(result);
+        console.log('Video duration:', duration);
+        console.log('Video title:', title);
+
+        // Call the WebAssembly function (if needed)
+        // process_video(videoFile);
 
         // Delete the video file after processing
-        const deleteResponse = await fetch(`/delete-video/${filename}`, {
+        const deleteResponse = await fetch(`/delete-video/${encodeURIComponent(filename)}`, {
             method: 'DELETE'
         });
 

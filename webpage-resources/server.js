@@ -5,9 +5,16 @@ const path = require('path');
 const multer = require('multer');
 const cors = require('cors');
 const csv = require('csv-parser');
+const ffmpeg = require('fluent-ffmpeg');
+const ffprobeStatic = require('ffprobe-static');
 
 const app = express();
 const PORT = 3000;
+
+const uploadDir = path.join(__dirname, '..', 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true});
+}
 
 // configure multer for CSV file storage
 const csvStorage = multer.diskStorage({
@@ -123,26 +130,34 @@ app.post('/upload-video', uploadVideo.single('videoFile'), (req, res) => {
         return res.status(400).send('No video file uploaded');
     }
 
-    // Normalize and sanitize file name
-    const sanitizedFilename = path.basename(req.file.originalname);
-    const targetPath = path.join(__dirname, '..', 'uploads', sanitizedFilename);
+    const filename = path.basename(req.file.originalname);
+    const targetPath = path.join(__dirname, '..', 'uploads', filename);
     const normalizedPath = path.normalize(targetPath);
 
-    fs.rename(req.file.path, targetPath, (err) => {
+    fs.rename(req.file.path, normalizedPath, (err) => {
         if (err) {
+            console.error("Error renaming file:", err);
             return res.status(500).send('Error renaming file');
         }
 
-        // Check if the file exists
-        fs.access(normalizedPath, fs.constants.F_OK, (err) => {
+        ffmpeg.setFfprobePath(ffprobeStatic.path);
+
+        ffmpeg.ffprobe(normalizedPath, (err, metadata) => {
             if (err) {
-                return res.status(404).send('File not found after renaming');
+                console.error("ffprobe error:", err);
+                return res.status(500).send('Error processing video file.');
             }
 
-            res.json({ filename: sanitizedFilename, filepath: normalizedPath });
+            const format = metadata.format || {};
+            const tags = format.tags || {};
+            const title = tags.title ? tags.title : 'Unknown Title';
+            const releaseYear = tags.release_date ? tags.release_date : 'Unknown Year';
+            
+            res.json({ filename: filename, title: title, duration: releaseYear });
         });
     });
 });
+
 
 
 // New route for deleting a video file
