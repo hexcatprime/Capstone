@@ -151,9 +151,9 @@ app.post('/upload-video', uploadVideo.single('videoFile'), (req, res) => {
             const format = metadata.format || {};
             const tags = format.tags || {};
             const title = tags.title ? tags.title : 'Unknown Title';
-            const releaseYear = tags.release_date ? tags.release_date : 'Unknown Year';
+            const year = tags.date || tags.date ? tags.date.split('-')[0] : 'Unknown Year';
             
-            res.json({ filename: filename, title: title, duration: releaseYear });
+            res.json({ filename: filename, title: title, year: year });
         });
     });
 });

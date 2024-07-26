@@ -20,17 +20,16 @@ async function uploadVideo(file) {
         if (!uploadResponse.ok) {
             throw new Error('Upload failed');
         }
-
+ 
         const uploadData = await uploadResponse.json();
-        const { filename, duration, title } = uploadData;
+        const { filename, title, year } = uploadData;
 
-        console.log('Video duration:', duration);
+        console.log('Video year:', year);
         console.log('Video title:', title);
 
         // Call the WebAssembly function (if needed)
         // process_video(videoFile);
 
-        // Delete the video file after processing
         const deleteResponse = await fetch(`/delete-video/${encodeURIComponent(filename)}`, {
             method: 'DELETE'
         });
