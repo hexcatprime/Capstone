@@ -1,5 +1,25 @@
 use wasm_bindgen::prelude::*;
 use csv::ReaderBuilder;
+use serde_json::Value;
+use reqwest;
+use web_sys::console;use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Movie {
+    pub poster: String,
+    pub title: String,
+    pub year: String,
+    pub released: String,
+    pub rated: String,
+    pub runtime: String,
+    pub genre: String,
+    pub director: String,
+    pub writer: String,
+    pub actors: String,
+    pub plot: String,
+    pub language: String,
+    pub country: String,
+}
 
 #[wasm_bindgen]
 pub fn filter_csv(csv_data: &str, query: &str) -> String {
@@ -70,8 +90,68 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
 }
 
 #[wasm_bindgen]
-pub fn process_video(title: &str, year: &str) -> String {
+pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, JsValue> {
+    // Construct the API URL with the provided title and year
+    let api_key = "f95d2eac";
+    let url = format!(
+        "https://www.omdbapi.com/?t={}&y={}&apikey={}",
+        title,
+        year.unwrap_or_default(), // Use default value if year is None
+        api_key
+    );
 
-    // Process the file assuming it exists, as the existence check is now done in Node.js
-    format!("Processing file: {}, {}", title, year)
+    // Perform the API request
+    let response = reqwest::get(&url)
+        .await
+        .map_err(|err| JsValue::from_str(&err.to_string()))?;
+
+    let text = response.text().await.map_err(|err| JsValue::from_str(&err.to_string()))?;
+    let v: Value = serde_json::from_str(&text).map_err(|err| JsValue::from_str(&err.to_string()))?;
+
+    // Extract movie details
+    let movie = Movie {
+        poster: v["Poster"].as_str().unwrap_or_default().into(),
+        title: v["Title"].as_str().unwrap_or_default().into(),
+        year: v["Year"].as_str().unwrap_or_default().into(),
+        released: v["Released"].as_str().unwrap_or_default().into(),
+        rated: v["Rated"].as_str().unwrap_or_default().into(),
+        runtime: v["Runtime"].as_str().unwrap_or_default().into(),
+        genre: v["Genre"].as_str().unwrap_or_default().into(),
+        director: v["Director"].as_str().unwrap_or_default().into(),
+        writer: v["Writer"].as_str().unwrap_or_default().into(),
+        actors: v["Actors"].as_str().unwrap_or_default().into(),
+        plot: v["Plot"].as_str().unwrap_or_default().into(),
+        language: v["Language"].as_str().unwrap_or_default().into(),
+        country: v["Country"].as_str().unwrap_or_default().into(),
+    };
+
+    // Convert movie to CSV format
+    let csv_row = movie_to_csv(&movie);
+
+    // Log CSV row to the console
+    console::log_1(&format!("{}", csv_row).into());
+
+    // Return the CSV row as a String
+    Ok(JsValue::from_str(&csv_row))
+}
+
+
+// Function to convert Movie to CSV format
+fn movie_to_csv(movie: &Movie) -> String {
+    format!(
+        "\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
+        movie.poster,
+        movie.title,
+        movie.year,
+        movie.released,
+        movie.rated,
+        movie.runtime,
+        movie.genre,
+        movie.director,
+        movie.writer,
+        movie.actors,
+        movie.plot,
+        movie.language,
+        movie.country
+    )
 }
