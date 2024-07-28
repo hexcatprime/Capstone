@@ -255,7 +255,7 @@ export async function run() {
                 if (rowIndex !== -1) {
                     csvRows.splice(rowIndex, 1);
                     filteredData = csvRows;
-                    displayTable(filteredData);
+                    fetchLatestCsv();
                 }
                 movieModal.style.display = 'none';
             } else {

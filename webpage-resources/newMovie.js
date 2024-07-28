@@ -1,5 +1,6 @@
 // js/newMovie.js
 import { run } from './loadCsv.js';
+import init, { fetch_movie } from '../pkg/freakstone.js';
 
 async function main() {
     try {
@@ -40,25 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // if empty, N/A
         const newRow = [
-            formData.get('poster') || 'N/A',
             formData.get('title') || 'N/A',
             formData.get('year') || 'N/A',
-            formData.get('rated') || 'N/A',
-            formData.get('runtime') || 'N/A',
-            formData.get('imdb') || 'N/A',
-            formData.get('rottenTomatoes') || 'N/A',
-            formData.get('metacritic') || 'N/A',
-            formData.get('released') || 'N/A',
-            formData.get('genre') || 'N/A',
-            formData.get('director') || 'N/A',
-            formData.get('writer') || 'N/A',
-            formData.get('actors') || 'N/A',
-            formData.get('plot') || 'N/A',
-            formData.get('language') || 'N/A',
-            formData.get('country') || 'N/A',
-            formData.get('awards') || 'N/A',
-            formData.get('boxOffice') || 'N/A'
         ];
+
+        await init();
+        
+        const result = await fetch_movie(newRow[0], newRow[1]);
+        const resultString = result.toString()
+
+        // Split the result into an array
+        const arr = resultString.split(',');
 
         // write to csv
         try {
@@ -67,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ row: newRow })
+                body: JSON.stringify({ row: arr })
             });
 
             if (response.ok) {
