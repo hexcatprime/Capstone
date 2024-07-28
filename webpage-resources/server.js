@@ -124,6 +124,7 @@ app.post('/save-csv-data', (req, res) => {
     });
 });
 
+
 // new route for video uploads
 app.post('/upload-video', uploadVideo.single('videoFile'), (req, res) => {
     if (!req.file) {

@@ -49,6 +49,14 @@
         </main>
     </div>
     
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <div id="modalMovieDetails"></div>
+            <button id="delete-movie-btn">Delete Movie</button>
+        </div>
+    </div>
+
     <!-- filter modal -->
     <div id="filterModal" class="modal">
         <div class="modal-content">
@@ -212,6 +220,7 @@
         </div>
     </div>
 
+    <script type="module" src="webpage-resources/movieInfo.js"></script>
     <script type="module" src="webpage-resources/loadCsv.js"></script>
     <script type="module" src="webpage-resources/filterCsv.js"></script>
     <script type="module" src="webpage-resources/newMovie.js"></script>

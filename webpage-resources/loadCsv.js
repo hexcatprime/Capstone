@@ -1,4 +1,5 @@
 import init, { filter_csv, sort_csv } from '../pkg/freakstone.js';
+import { showModal } from './movieInfo.js';
 
 export async function run() {
     await init();
@@ -7,6 +8,8 @@ export async function run() {
     const sortByDropdown = document.getElementById('sort-by');
     const exportBtn = document.getElementById('export');
     const sortOrderDropdown = document.getElementById('sort-order');
+    const closeModal = document.getElementById('closeModal');
+    const movieModal = document.getElementById('movieModal');
 
     let csvRows = [], filteredData = [], headers = [];
     
@@ -16,6 +19,19 @@ export async function run() {
     sortByDropdown.addEventListener('change', handleSort);
     sortOrderDropdown.addEventListener('change', handleSort);
     exportBtn.addEventListener('click', exportCsv);
+
+
+
+    closeModal.addEventListener('click', () => {
+        movieModal.style.display = 'none';
+    });
+    
+    // Close the modal if user clicks outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === movieModal) {
+            movieModal.style.display = 'none';
+        }
+    });
     
     async function fetchLatestCsv() {
         try {
@@ -153,12 +169,12 @@ export async function run() {
 
     function displayTable(data) {
         const numColumnsToShow = 8;
-        
+
         const headerHtml = headers
             .slice(0, numColumnsToShow)
             .map(header => `<th>${header}</th>`)
             .join('');
-        
+
         const rowsHtml = data
             .map(row => 
                 `<tr>${
@@ -166,17 +182,27 @@ export async function run() {
                     .map((cell, index) => 
                         index === 0 
                         ? `<td><img src="${escapeHtml(cell)}" alt="Image" class="img-cell"></td>`
+                        : index === 1 
+                        ? `<td class="clickable-title" data-row='${JSON.stringify(row)}'>${escapeHtml(cell)}</td>`
                         : `<td>${escapeHtml(cell)}</td>`
                     )
                     .join('')
                 }</tr>`
             )
             .join('');
-            
+
         resultTable.innerHTML = data.length 
             ? `<thead><tr>${headerHtml}</tr></thead><tbody>${rowsHtml}</tbody>` 
             : '<tr><td colspan="100%">No results found.</td></tr>';
+
+        document.querySelectorAll('.clickable-title').forEach(titleCell => {
+            titleCell.addEventListener('click', (event) => {
+                const row = JSON.parse(event.target.dataset.row);
+                showModal(row, deleteRow);
+            });
+        });
     }
+    
     
     function escapeHtml(text) {
         const element = document.createElement('div');
@@ -216,6 +242,33 @@ export async function run() {
     
         URL.revokeObjectURL(url);
     }
-}    
+
+    function deleteRow(row) {
+        fetch('/delete-movie', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ row })
+        })
+        .then(response => response.text())
+        .then(message => {
+            if (message === 'Movie deleted successfully.') {
+                const rowIndex = csvRows.findIndex(csvRow => JSON.stringify(csvRow) === JSON.stringify(row));
+                if (rowIndex !== -1) {
+                    csvRows.splice(rowIndex, 1);
+                    filteredData = csvRows;
+                    displayTable(filteredData);
+                }
+                movieModal.style.display = 'none';
+            } else {
+                displayError(message);
+            }
+        })
+        .catch(error => {
+            displayError('Error deleting movie.');
+        });
+    }
+}
 
 run();

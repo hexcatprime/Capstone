@@ -12,6 +12,7 @@ pub struct Movie {
     pub released: String,
     pub rated: String,
     pub runtime: String,
+    pub ratings: String,
     pub genre: String,
     pub director: String,
     pub writer: String,
@@ -116,6 +117,7 @@ pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, Js
         released: v["Released"].as_str().unwrap_or_default().into(),
         rated: v["Rated"].as_str().unwrap_or_default().into(),
         runtime: v["Runtime"].as_str().unwrap_or_default().into(),
+        ratings: v["Ratings"].as_str().unwrap_or_default().into(),
         genre: v["Genre"].as_str().unwrap_or_default().into(),
         director: v["Director"].as_str().unwrap_or_default().into(),
         writer: v["Writer"].as_str().unwrap_or_default().into(),
@@ -139,13 +141,14 @@ pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, Js
 // Function to convert Movie to CSV format
 fn movie_to_csv(movie: &Movie) -> String {
     format!(
-        "\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
+        "\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
         movie.poster,
         movie.title,
         movie.year,
         movie.released,
         movie.rated,
         movie.runtime,
+        movie.ratings,
         movie.genre,
         movie.director,
         movie.writer,
