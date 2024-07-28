@@ -12,7 +12,9 @@ pub struct Movie {
     pub released: String,
     pub rated: String,
     pub runtime: String,
-    pub ratings: String,
+    pub rating1: String,
+    pub rating2: String,
+    pub rating3: String,
     pub genre: String,
     pub director: String,
     pub writer: String,
@@ -20,6 +22,7 @@ pub struct Movie {
     pub plot: String,
     pub language: String,
     pub country: String,
+    pub boxoffice: String
 }
 
 #[wasm_bindgen]
@@ -92,7 +95,6 @@ pub fn sort_csv(csv_data: &str, column_index: usize, sort_order: &str) -> String
 
 #[wasm_bindgen]
 pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, JsValue> {
-    // Construct the API URL with the provided title and year
     let api_key = "f95d2eac";
     let url = format!(
         "https://www.omdbapi.com/?t={}&y={}&apikey={}",
@@ -101,7 +103,6 @@ pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, Js
         api_key
     );
 
-    // Perform the API request
     let response = reqwest::get(&url)
         .await
         .map_err(|err| JsValue::from_str(&err.to_string()))?;
@@ -109,15 +110,24 @@ pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, Js
     let text = response.text().await.map_err(|err| JsValue::from_str(&err.to_string()))?;
     let v: Value = serde_json::from_str(&text).map_err(|err| JsValue::from_str(&err.to_string()))?;
 
-    // Extract movie details
+    let empty_vec = vec![];
+    let ratings_array = v["Ratings"].as_array().unwrap_or(&empty_vec);
+
+    let mut ratings = ratings_array.iter().map(|rating| rating["Value"].as_str().unwrap_or("").to_string()).collect::<Vec<_>>();
+
+    // Ensure at least three ratings are present
+    ratings.resize(3, String::new());
+
     let movie = Movie {
         poster: v["Poster"].as_str().unwrap_or_default().into(),
         title: v["Title"].as_str().unwrap_or_default().into(),
         year: v["Year"].as_str().unwrap_or_default().into(),
-        released: v["Released"].as_str().unwrap_or_default().into(),
         rated: v["Rated"].as_str().unwrap_or_default().into(),
         runtime: v["Runtime"].as_str().unwrap_or_default().into(),
-        ratings: v["Ratings"].as_str().unwrap_or_default().into(),
+        rating1: ratings.get(0).cloned().unwrap_or_default(),
+        rating2: ratings.get(1).cloned().unwrap_or_default(),
+        rating3: ratings.get(2).cloned().unwrap_or_default(),
+        released: v["Released"].as_str().unwrap_or_default().into(),
         genre: v["Genre"].as_str().unwrap_or_default().into(),
         director: v["Director"].as_str().unwrap_or_default().into(),
         writer: v["Writer"].as_str().unwrap_or_default().into(),
@@ -125,6 +135,7 @@ pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, Js
         plot: v["Plot"].as_str().unwrap_or_default().into(),
         language: v["Language"].as_str().unwrap_or_default().into(),
         country: v["Country"].as_str().unwrap_or_default().into(),
+        boxoffice: v["Box Office"].as_str().unwrap_or_default().into()
     };
 
     // Convert movie to CSV format
@@ -137,24 +148,25 @@ pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, Js
     Ok(JsValue::from_str(&csv_row))
 }
 
-
-// Function to convert Movie to CSV format
 fn movie_to_csv(movie: &Movie) -> String {
     format!(
-        "\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
+        "\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
         movie.poster,
         movie.title,
         movie.year,
-        movie.released,
         movie.rated,
         movie.runtime,
-        movie.ratings,
+        movie.rating1,
+        movie.rating2,
+        movie.rating3,
+        movie.released,
         movie.genre,
         movie.director,
         movie.writer,
         movie.actors,
         movie.plot,
         movie.language,
-        movie.country
+        movie.country,
+        movie.boxoffice
     )
 }

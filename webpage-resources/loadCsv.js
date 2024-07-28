@@ -20,8 +20,6 @@ export async function run() {
     sortOrderDropdown.addEventListener('change', handleSort);
     exportBtn.addEventListener('click', exportCsv);
 
-
-
     closeModal.addEventListener('click', () => {
         movieModal.style.display = 'none';
     });
@@ -183,7 +181,7 @@ export async function run() {
                         index === 0 
                         ? `<td><img src="${escapeHtml(cell)}" alt="Image" class="img-cell"></td>`
                         : index === 1 
-                        ? `<td class="clickable-title" data-row='${JSON.stringify(row)}'>${escapeHtml(cell)}</td>`
+                        ? `<td class="clickable-title" data-row='${escapeHtml(JSON.stringify(row).replace(/'/g, "&#39;"))}'>${escapeHtml(cell)}</td>`
                         : `<td>${escapeHtml(cell)}</td>`
                     )
                     .join('')
@@ -197,12 +195,18 @@ export async function run() {
 
         document.querySelectorAll('.clickable-title').forEach(titleCell => {
             titleCell.addEventListener('click', (event) => {
-                const row = JSON.parse(event.target.dataset.row);
-                showModal(row, deleteRow);
+                try {
+                    const jsonData = event.target.dataset.row;
+                    console.log("JSON Data:", jsonData);
+                    const row = JSON.parse(jsonData);
+                    showModal(row, deleteRow);
+                } catch (error) {
+                    console.error("Error parsing JSON data:", error);
+                    displayError("Error displaying movie details.");
+                }
             });
         });
     }
-    
     
     function escapeHtml(text) {
         const element = document.createElement('div');
@@ -216,13 +220,8 @@ export async function run() {
 
     function exportCsv() {
         function escapeCsvField(field) {
-            if (field.includes('"')) {
-                field = field.replace(/"/g, '""');
-            }
-            if (field.includes(',') || field.includes('\n') || field.includes('"')) {
-                field = `"${field}"`;
-            }
-            return field;
+            field = field.replace(/"/g, '""'); // Escape any existing double quotes
+            return `"${field}"`; // Wrap the field in double quotes
         }
     
         const csvString = [
@@ -230,18 +229,16 @@ export async function run() {
             ...filteredData.map(row => row.map(escapeCsvField).join(","))
         ].join("\n");
     
-        const blob = new Blob([csvString], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-    
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'latest.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    
-        URL.revokeObjectURL(url);
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'filtered_movies.csv';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click(); // Trigger the download
+        document.body.removeChild(link);
     }
+    
 
     function deleteRow(row) {
         fetch('/delete-movie', {
@@ -268,6 +265,7 @@ export async function run() {
         .catch(error => {
             displayError('Error deleting movie.');
         });
+        fetchLatestCsv();
     }
 }
 

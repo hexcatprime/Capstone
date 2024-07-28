@@ -174,6 +174,64 @@ app.delete('/delete-video/:filename', (req, res) => {
     });
 });
 
+app.post('/delete-movie', (req, res) => {
+    const { row } = req.body;
+    if (!row || !Array.isArray(row)) {
+        return res.status(400).send('Invalid row data.');
+    }
+
+    const csvPath = path.join(__dirname, '..', 'csv', 'latest.csv');
+    const tempCsvPath = path.join(__dirname, '..', 'csv', 'latest_temp.csv');
+    const rowToDelete = row.join(',');
+
+    const rows = [];
+    let headers = null;
+
+    // Read the CSV file
+    fs.createReadStream(csvPath)
+        .pipe(csv())
+        .on('data', (data) => {
+            const rowData = Object.values(data).join(',');
+            if (rowData !== rowToDelete) {
+                rows.push(data);
+            }
+        })
+        .on('headers', (headerList) => {
+            headers = headerList;
+        })
+        .on('end', () => {
+            if (headers && rows.length > 0) {
+                // Construct the CSV data manually
+                const csvData = [headers.join(',')];
+                rows.forEach(row => {
+                    const rowArray = headers.map(header => row[header]);
+                    csvData.push(rowArray.join(','));
+                });
+
+                // Write the filtered data back to a temporary CSV file
+                fs.writeFile(tempCsvPath, csvData.join('\n'), (err) => {
+                    if (err) {
+                        return res.status(500).send('Error writing to temporary CSV file.');
+                    }
+
+                    // Replace the original CSV file with the temporary one
+                    fs.rename(tempCsvPath, csvPath, (err) => {
+                        if (err) {
+                            return res.status(500).send('Error replacing the original CSV file.');
+                        }
+
+                        res.status(200).send('Row deleted successfully.');
+                    });
+                });
+            } else {
+                res.status(500).send('Error processing CSV data.');
+            }
+        })
+        .on('error', (err) => {
+            res.status(500).send('Error reading the CSV file.');
+        });
+});    
+
 // port 3000    
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
