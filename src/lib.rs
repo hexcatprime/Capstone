@@ -148,25 +148,33 @@ pub async fn fetch_movie(title: String, year: Option<i32>) -> Result<JsValue, Js
     Ok(JsValue::from_str(&csv_row))
 }
 
+fn replace_empty_fields(value: &str) -> String {
+    if value.is_empty() {
+        "N/A".to_string()
+    } else {
+        value.to_string()
+    }
+}
+
 fn movie_to_csv(movie: &Movie) -> String {
     format!(
         "\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
-        movie.poster,
-        movie.title,
-        movie.year,
-        movie.rated,
-        movie.runtime,
-        movie.rating1,
-        movie.rating2,
-        movie.rating3,
-        movie.released,
-        movie.genre,
-        movie.director,
-        movie.writer,
-        movie.actors,
-        movie.plot,
-        movie.language,
-        movie.country,
-        movie.boxoffice
+        replace_empty_fields(&movie.poster),
+        replace_empty_fields(&movie.title),
+        replace_empty_fields(&movie.year),
+        replace_empty_fields(&movie.rated),
+        replace_empty_fields(&movie.runtime),
+        replace_empty_fields(&movie.rating1),
+        replace_empty_fields(&movie.rating2),
+        replace_empty_fields(&movie.rating3),
+        replace_empty_fields(&movie.released),
+        replace_empty_fields(&movie.genre),
+        replace_empty_fields(&movie.director),
+        replace_empty_fields(&movie.writer),
+        replace_empty_fields(&movie.actors),
+        replace_empty_fields(&movie.plot),
+        replace_empty_fields(&movie.language),
+        replace_empty_fields(&movie.country),
+        replace_empty_fields(&movie.boxoffice)
     )
 }
