@@ -14,3 +14,13 @@ The user may also import and export their database file as either a JSON file or
 Should the data for an entry be incorrect, the user may select an entry and edit its contents.
 
 OMDb: The Open Movie Database hosts data for most films that exist on IDMB (Internet Move Database) and provide a free web API to developers.
+
+
+## Contributors
+[Sam Benson](https://github.com/dubsbol)
+[Aria Sanderson](https://github.com/arialilith)
+[Seb Batistini](https://github.com/batistinixatwit)
+Sam Wilson
+
+## License
+[MIT](https://github.com/hexcatprime/capstone/blob/main/LICENSE)
