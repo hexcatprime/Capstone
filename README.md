@@ -17,10 +17,10 @@ OMDb: The Open Movie Database hosts data for most films that exist on IDMB (Inte
 
 
 ## Contributors
-[Sam Benson](https://github.com/dubsbol)
-[Aria Sanderson](https://github.com/arialilith)
-[Seb Batistini](https://github.com/batistinixatwit)
-Sam Wilson
+- [Sam Benson](https://github.com/dubsbol)
+- [Aria Sanderson](https://github.com/arialilith)
+- [Seb Batistini](https://github.com/batistinixatwit)
+- Sam Wilson
 
 ## License
 [MIT](https://github.com/hexcatprime/capstone/blob/main/LICENSE)
