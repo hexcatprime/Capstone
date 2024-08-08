@@ -1,11 +1,10 @@
-// modal.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById("filterModal");
     const btn = document.getElementById("filter");
-    const span = document.getElementsByClassName("close")[0];
+    const span = document.getElementById("close");
     const filterButton = document.getElementById("filter-btn");
 
+    console.log(modal, btn, span, filterButton);
     // open the modal
     btn.onclick = function() {
         modal.style.display = "block";
@@ -18,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // close the modal if clicking outside of it
     window.onclick = function(event) {
-        if (event.target === filterModal) {
-        filterModal.style.display = "none";
+        if (event.target === modal) {
+            modal.style.display = "none";
         }
     }
 
@@ -29,4 +28,3 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = "none";
     }
 });
-    
